@@ -1,0 +1,42 @@
+footer {
+    background-color: rgb(35, 52, 45);
+}
+
+footer>div {
+    padding: 3rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+footer .nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    gap: 1rem
+}
+
+footer .socials {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+footer .socials a:nth-child(1):hover {
+    color: plum
+}
+
+footer .socials a:nth-child(2):hover {
+    color: rgb(31, 164, 216)
+}
+
+footer .socials a:nth-child(3):hover {
+    color: black
+}
+
+footer a {
+    color: white
+}
