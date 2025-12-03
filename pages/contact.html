@@ -1,69 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YEA Restaurant</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YEA Restaurant</title>
 
-
- <link rel="preconnect" href="https://fonts.googleapis.com" />
- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
- <link
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
       href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Playwrite+US+Trad+Guides&display=swap"
       rel="stylesheet"
     />
 
-<link rel="stylesheet" href="../styles/contact.css">
-<link rel="stylesheet" href="../styles/navbar.css">
-<link rel="stylesheet" href="../styles/footer.css" />
+    <link rel="stylesheet" href="../styles/contact.css" />
+    <link rel="stylesheet" href="../styles/navbar.css" />
+    <link rel="stylesheet" href="../styles/footer.css" />
+  </head>
 
-</head>
+  <body>
+    <!-- Navbar -->
+    <div class="navbar-container">
+      <div class="logo"><img src="../assets/images/Logo.jpg" alt="" /></div>
 
-<body>
-
-
-<!-- Navbar -->
-<div class="navbar-container">
-  <div class="logo"><img src="./assets/images/Logo.jpg" alt=""></div>
-     
-    <div class="hamburger-icon-container">
-      <img class="hamburger-icon" src="../assets/icons/hamburger.svg" />
+      <div class="hamburger-icon-container">
+        <img class="hamburger-icon" src="../assets/icons/hamburger.svg" />
+      </div>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="./menu.html">Menu</a>
+        <a href="./about.html">About</a>
+        <a href="./gallery.html">Gallery</a>
+        <a href="./contact.html">Contact</a>
+      </div>
     </div>
-      
-    <div class="nav-links">
-      <a href="../index.html">Home</a>
-      <a href="./menu.html">Menu</a>
-      <a href="./about.html">About</a>
-      <a href="./gallery.html">Gallery</a>
-      <a href="./contact.html">Contact</a>
+
+    <!-- Send us a message section -->
+    <div class="container">
+      <div class="form-box">
+        <h1>Contact Us</h1>
+        <p>We would love to hear from you</p>
+
+        <input type="text" placeholder="Name" />
+        <input type="email" placeholder="Email" />
+        <input type="text" placeholder="Subject" />
+        <textarea placeholder="Message"></textarea>
+
+        <button>Send Message</button>
+      </div>
+
+      <div class="contact-text">
+        <img src="../assets/images/contact chef.png" alt="" />
+      </div>
     </div>
-</div>
 
-
-<!-- Send us a message section -->
-<div class="container">
-
-  <div class="form-box">
-    <h1>Contact Us</h1>
-    <p>We would love to hear from you</p>
-
-    <input type="text" placeholder="Name">
-    <input type="email" placeholder="Email">
-    <input type="text" placeholder="Subject">
-    <textarea placeholder="Message"></textarea>
-
-    <button>Send Message</button>
-  </div> 
-    
- <div class="contact-text">
-      <img src="../assets/images/contact chef.png" alt="">
-  </div>
-
-</div>
-
-
-<!-- Footer -->
-<footer>
+    <!-- Footer -->
+    <footer>
       <div class="footer-container">
         <div class="nav">
           <div>Quick Links</div>
@@ -137,10 +128,8 @@
         </div>
       </div>
       <div class="copyright">© 2025 YEA Restaurant. All rights reserved.</div>
-</footer>
+    </footer>
 
-
-<script src="../styles/script.js"></script>
-
-</body>
+    <script src="../styles/script.js"></script>
+  </body>
 </html>

@@ -1,4 +1,3 @@
-
 /* Navbar */
 
 .navbar-container {
@@ -13,6 +12,7 @@
   left: 0;
   height: 13vh;
   z-index: 100;
+  font-family: "Times New Roman", Times, serif;
   transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
 }
 .navbar-container.scrolled {
@@ -31,7 +31,6 @@
   width: auto;
   border-radius: 20px;
 }
-
 
 .hamburger-icon-container {
   /* border: red 1px solid; */
@@ -58,15 +57,14 @@
   height: 100vh;
   width: 40vw;
   background-color: hsl(197, 15%, 9%);
- 
+
   flex-direction: column;
   z-index: 2;
   transition: right ease-in 0.5s;
-
 }
 .nav-links a {
   /* border: solid 1px white; */
-   color: white;
+  color: white;
   text-decoration: none;
   padding: 2rem 1rem;
   font-size: 1.2rem;

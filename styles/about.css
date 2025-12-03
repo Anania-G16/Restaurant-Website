@@ -1,5 +1,5 @@
 :root {
-  --bg-color:hsl(197, 14%, 10%);
+  --bg-color: hsl(197, 14%, 10%);
   --main-text: hsl(58, 40%, 88%);
   --secondary-text: hsl(60, 2%, 74%);
 }
@@ -18,7 +18,7 @@ body {
 /* Hero */
 .hero {
   background-image: url("../assets/images/black.jpg");
-  font-family: "Lobster Two", sans-serif;  
+  font-family: "Lobster Two", sans-serif;
   padding: 5rem 0;
 }
 
@@ -52,10 +52,8 @@ body {
   font-size: 1.2rem;
   text-align: center;
   padding: 0 2rem;
+  display: flex;
 }
-
-
-/* Story  */
 
 .title {
   /* border: solid 1px white; */
@@ -69,20 +67,20 @@ body {
   font-size: 1.2rem;
   text-align: center;
   margin: 2rem 2rem;
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 5rem;
 }
 
-.story-video{
+.story-video {
   height: 70vh;
   width: auto;
   border-radius: 10px;
 }
 
-.story-text{
+.story-text {
   max-width: 45vw;
   line-height: 1.5;
 }
@@ -96,6 +94,17 @@ body {
 @media (min-width: 768px) {
   .title {
     font-size: 4.5rem;
+  }
+}
+@media (max-width: 768px) {
+  .story {
+    flex-direction: column;
+  }
+  .story-text {
+    max-width: none;
+  }
+  .story-1 {
+    flex-direction: column-reverse;
   }
 }
 
@@ -112,7 +121,6 @@ body {
     padding: 0 10rem;
   }
 }
-
 
 /* Why choose us  */
 
