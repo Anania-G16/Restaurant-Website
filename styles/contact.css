@@ -1,18 +1,25 @@
+:root {
+  --bg-color: hsl(197, 14%, 10%);
+  --main-text: hsl(58, 40%, 88%);
+  --secondary-text: hsl(60, 2%, 74%);
+  --secondary-color: rgb(213, 154, 15);
+}
+
 body{
     padding: 0;
     margin: 0;
-    color: white;
-    background-color:hsl(197, 14%, 10%);
+    color: var(--main-text);
+    background-color: var(--bg-color);
 }
 
 .container {
     position: relative;
-    min-height: 100vh;
+    min-height: auto;
     overflow: hidden;
-    padding-top: 20vh;
+    padding-top: 18vh;
     padding-left: 15vw;
+    margin-bottom: 10vh;
  
-
     display: flex;  
     justify-content: center;  
     align-items: flex-start;
@@ -35,22 +42,22 @@ body{
 }
 
 .done-oneline{
-  color: rgb(213, 154, 15);
+  color: var(--secondary-color);
 
 }
 
-
 .form-box {
-    padding: 30px 40px;
+    padding: 10vh 10vw;
     border-radius: 10px;
     width: 350px;
     text-align: center;
     padding: 30px 50px;
-    color: white;
-    background-color: hsl(204, 8%, 12%);
-    border: hsl(200, 16%, 15%) solid 1px;
+    color: var(--main-text);
+    background-color: var(--bg-color);
+    /* border: hsl(200, 16%, 15%) solid 3px; */
+    border: 3px solid hsl(200, 16%, 15%);
+    box-shadow: 0 0 5px hsl(200, 16%, 40%);
 }
-
 
 .form-box input,
 .form-box textarea {
@@ -71,9 +78,29 @@ button {
     width: 100%;
     padding: 12px;
     border: none;
-    background: rgb(213, 154, 15);
-    color: white;
+    background: var(--secondary-color);
+    color: var(--main-text);
     font-size: 16px;
     border-radius: 6px;
     cursor: pointer;
+}
+
+/* responsivenes */
+@media (max-width: 1000px) {
+  .contact-text {
+    display: none;
+  }
+
+  .container {
+    padding: 0;
+    display: block;
+  }
+
+  .form-box {
+    max-width: 80%;
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 20vh 9vw 5vh 9vw;
+
+  }
 }

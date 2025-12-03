@@ -17,7 +17,7 @@ body {
 
 /* Hero */
 .hero {
-  background-image: url("./images/black.jpg");
+  background-image: url("../assets/images/black.jpg");
   font-family: "Lobster Two", sans-serif;  
   padding: 5rem 0;
 }
