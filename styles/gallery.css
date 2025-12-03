@@ -1,14 +1,16 @@
+:root {
+    --bg-color: hsl(197, 14%, 10%);
+    --main-text: hsl(58, 40%, 88%);
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background-color: var(--bg-color);
 }
 
-:root {
-    --bg-color: hsl(197, 14%, 10%);
-    --main-text: hsl(58, 40%, 88%);
 
-}
 
 body {
     color: var(--main-text)
