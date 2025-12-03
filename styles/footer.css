@@ -1,7 +1,12 @@
-/* footer  */
+:root {
+  --bg-color: hsl(197, 15%, 9%);
+  --main-text: hsl(58, 40%, 88%);
+  --secondary-text: hsl(60, 2%, 74%);
+  --secondary-color: rgb(213, 154, 15);
+}
 
 footer {
-  background-color: hsl(197, 15%, 9%);
+  background-color: var(--bg-color);
 }
 
 .footer-container {
@@ -30,6 +35,35 @@ footer .socials {
   gap: 1.5rem;
 }
 
+
+footer .nav a {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  color: var(--main-text);
+  text-decoration: none;
+  position: relative;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+/* underlining animation*/
+footer .nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0%;
+  height: 2px;
+  background: var(--secondary-color);
+  transition: width 0.3s ease;
+}
+
+footer .nav a:hover {
+  transform: scale(1.08);
+}
+
+footer .nav a:hover::after {
+  width: 100%;
+}
 
 
 footer .socials a:nth-child(1):hover {

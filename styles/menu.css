@@ -1,3 +1,9 @@
+:root {
+    --bg-color: hsl(197, 14%, 10%);
+    --main-text: hsl(58, 40%, 88%);
+
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,12 +13,6 @@
 img {
     display: block;
     width: 100%;
-}
-
-:root {
-    --bg-color: hsl(197, 14%, 10%);
-    --main-text: hsl(58, 40%, 88%);
-
 }
 
 body {
@@ -26,7 +26,9 @@ header {
 
 .hero {
     height: 90vh;
-    background-image: url(../assets/images/hero_image.jpg);
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url(../assets/images/hero_image.jpg);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -37,6 +39,7 @@ header {
     align-items: center;
     font-family: "Lobster Two", sans-serif;
 }
+
 
 .hero p {
     color: rgb(227, 189, 189);
@@ -65,6 +68,7 @@ main>div {
     font-size: 2rem;
     width: 100%;
     border-bottom: 1px solid rgb(127, 127, 134);
+    padding: 5vh 0 3vh 2vw;
 }
 
 .menu {
@@ -82,7 +86,9 @@ main>div {
     gap: 1rem;
     align-items: center;
     animation-name: smooth-view;
-    animation-direction: both;
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1.4);
+    animation-fill-mode: both;
     animation-timeline: view();
 }
 
@@ -116,14 +122,14 @@ main>div {
 @keyframes smooth-view {
     from {
         opacity: 0;
-        transform: translateY(100px)
+        transform: translateY(180px) scale(0.9);
     }
-
     to {
         opacity: 1;
-        transform: translateY(0)
+        transform: translateY(0) scale(1);
     }
 }
+
 
 
 @media (min-width:1000px) {

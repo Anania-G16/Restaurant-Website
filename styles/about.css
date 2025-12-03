@@ -218,7 +218,7 @@ body {
   }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1000px) {
   .stats-container {
     flex-direction: row;
     justify-content: space-around;

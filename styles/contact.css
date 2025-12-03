@@ -9,7 +9,7 @@ body{
     padding: 0;
     margin: 0;
     color: var(--main-text);
-    background-color: var(--bg-color);
+    background-color: hsl(197, 14%, 10%);
 }
 
 .container {
@@ -30,6 +30,9 @@ body{
   width: 50%;
   padding-top: 40px;
   font-size: larger;
+}
+.form-box h1, .form-box p{
+  font-family: "Lobster Two", sans-serif;
 }
 
 .contact-text img{
