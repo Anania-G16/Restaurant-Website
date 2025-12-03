@@ -1,5 +1,7 @@
-<!DOCTYPE html>
 
+
+
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -17,25 +19,34 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Playwrite+US+Trad+Guides&display=swap"
     rel="stylesheet" />
+
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
 </head>
 
 <body>
-  <!-- Navbar -->
-  <div class="navbar-container">
-    <div class="logo">
-      <p>YEA Restaurant</p>
+
+
+   <!-- Navbar -->
+    <div class="navbar-container">
+      <div class="logo"><img src="./assets/images/Logo.jpg" alt=""></div>
+     
+      <div class="hamburger-icon-container">
+        <img class="hamburger-icon" src="./assets/icons/hamburger.svg" />
+      </div>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="./menu.html">Menu</a>
+        <a href="./about.html">About</a>
+        <a href="./gallery.html">Gallery</a>
+        <a href="./contact.html">Contact</a>
+      </div>
     </div>
-    <div class="hamburger-icon-container">
-      <img class="hamburger-icon" src="./icons/hamburger.svg" alt="" />
-    </div>
-    <div class="nav-links">
-      <a href="">Home</a>
-      <a href="">Menu</a>
-      <a href="">About</a>
-      <a href="">Gallery</a>
-      <a href="">Contact</a>
-    </div>
-  </div>
+
+
 
   <div class="hero">
     <div class="slogan">About us</div>
@@ -43,6 +54,7 @@
       Everything you need to know about YEA Restaurant
     </div>
   </div>
+
 
   <div class="story-container">
     <div class="title">Our Story</div>
@@ -61,8 +73,27 @@
         comfort, joy, and a little surprise for the taste buds.
       </p>
       <div class="story-image-container">
-        <img class="story-image" src="../assets/images/story1.jpg" alt="" />
-        <img class="story-image" src="../assets/images/story2.jpg" alt="" />
+
+        <video 
+          class="story-image" 
+          src="../assets/video/burger.mp4" 
+          autoplay 
+          muted 
+          loop
+          playsinline>
+      </video>
+
+      <video 
+          class="story-image" 
+          src="../assets/video/video-2.mp4" 
+          autoplay 
+          muted 
+          loop
+          playsinline>
+      </video>
+
+        <!-- <img class="story-image" src="../assets/images/story1.jpg" alt="" /> -->
+        <!-- <img class="story-image" src="../assets/images/story2.jpg" alt="" /> -->
       </div>
       <p>
         But YEA isn't just about food. It's about the experience. From the
@@ -98,6 +129,7 @@
       </div>
     </div>
   </div>
+
   <div class="story-image-container">
     <img class="story-image" src="../assets/images/story3.jpg" alt="" />
     <img class="story-image" src="../assets/images/story4.jpg" alt="" />
@@ -112,6 +144,7 @@
       meal with friends, we put heart into everything we serve.
     </div>
   </div>
+
   <div class="stats-section">
     <img src="../assets/images/buffet.jpg" alt="Background" />
 

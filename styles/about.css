@@ -1,5 +1,5 @@
 :root {
-  --bg-color: hsl(198, 16%, 15%);
+  --bg-color:hsl(197, 14%, 10%);
   --main-text: hsl(58, 40%, 88%);
   --secondary-text: hsl(60, 2%, 74%);
 }
@@ -18,7 +18,7 @@ body {
 /* Hero */
 .hero {
   background-image: url("./images/black.jpg");
-  font-family: "Lobster Two", sans-serif;
+  font-family: "Lobster Two", sans-serif;  
   padding: 5rem 0;
 }
 
@@ -79,9 +79,8 @@ body {
 }
 
 .story-image {
-  width: 40vw;
-  max-width: 400px;
-  /* border-radius: 1rem; */
+  width: 35vw;
+  height: 65vh;
 }
 
 @media (min-width: 1024px) {
