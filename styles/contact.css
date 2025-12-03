@@ -1,5 +1,6 @@
 :root {
-  --bg-color: hsl(197, 14%, 10%);
+  
+  --bg-color: hsl(197, 14%, 10%)
   --main-text: hsl(58, 40%, 88%);
   --secondary-text: hsl(60, 2%, 74%);
   --secondary-color: rgb(213, 154, 15);
@@ -9,7 +10,7 @@ body{
     padding: 0;
     margin: 0;
     color: var(--main-text);
-    background-color: hsl(197, 14%, 10%);
+    background-color: var(--bg-color);
 }
 
 .container {
