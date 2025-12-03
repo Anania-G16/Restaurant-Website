@@ -509,11 +509,11 @@ body {
 }
 
 .section__card:hover :is(h4, h5) {
-  color: var(--white);
+  color: white;
 }
 
 .section__card:hover :is(p, h6) {
-  color: var(--secondary-color);
+  color: white;
 }
 
 .section__card:hover img {
