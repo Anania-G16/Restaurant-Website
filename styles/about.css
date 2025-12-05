@@ -24,7 +24,6 @@ body {
 
 .slogan {
   font-size: 5rem;
-  /* border: solid 1px white; */
   margin-bottom: 1.7rem;
   color: var(--main-text);
   text-align: center;
@@ -41,7 +40,6 @@ body {
 /* Story  */
 
 .title {
-  /* border: solid 1px white; */
   text-align: center;
   font-family: "Lobster Two", sans-serif;
   font-size: 3rem;
@@ -56,7 +54,6 @@ body {
 }
 
 .title {
-  /* border: solid 1px white; */
   text-align: center;
   font-family: "Lobster Two", sans-serif;
   font-size: 3rem;
@@ -67,7 +64,6 @@ body {
   font-size: 1.2rem;
   text-align: center;
   margin: 2rem 2rem;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -96,13 +92,16 @@ body {
     font-size: 4.5rem;
   }
 }
+
 @media (max-width: 768px) {
   .story {
     flex-direction: column;
   }
+
   .story-text {
     max-width: none;
   }
+
   .story-1 {
     flex-direction: column-reverse;
   }
