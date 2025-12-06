@@ -267,6 +267,7 @@ body {
   background-color: hsl(196, 15%, 15%);
   padding: 1rem;
   border-radius: 10px;
+  transition: background-color 0.3s;
 }
 .discover-menu-container {
   margin-top: 2rem;
@@ -352,6 +353,7 @@ body {
   text-align: center;
   color: var(--main-text);
   font-size: 4rem;
+  font-family: "Lobster Two", sans-serif;
 }
 
 .section__container h2 {
@@ -387,7 +389,6 @@ body {
   gap: 2rem;
 }
 
-
 @media (max-width: 1000px) {
   .section__grid {
     grid-template-columns: 1fr;
@@ -398,8 +399,6 @@ body {
     margin: 0 auto;
   }
 }
-
-
 
 .section__card {
   position: relative;
