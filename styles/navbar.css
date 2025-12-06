@@ -27,9 +27,10 @@
 }
 
 .logo img {
-  height: 70px;
+  height: 60px;
   width: auto;
   border-radius: 20px;
+  padding: 7px 5px;
 }
 
 .hamburger-icon-container {
