@@ -3,6 +3,7 @@
   --bg-color: hsl(197, 14%, 10%) --main-text: hsl(58, 40%, 88%);
   --secondary-text: hsl(60, 2%, 74%);
   --secondary-color: rgb(213, 154, 15);
+  --hover-color: rgb(170, 120, 4);
 }
 
 body::-webkit-scrollbar {
@@ -30,7 +31,7 @@ body {
   gap: 2rem;
 }
 
-.contact-text {
+.contact-image {
   width: 50%;
   padding-top: 40px;
   font-size: larger;
@@ -41,19 +42,11 @@ body {
   font-family: "Lobster Two", sans-serif;
 }
 
-.contact-text img {
+.contact-image img {
   height: 65vh;
   width: auto;
 }
 
-.contact-text p {
-  padding: 5px 2px;
-}
-
-.done-oneline {
-  color: var(--secondary-color);
-
-}
 
 .form-box {
   padding: 10vh 10vw;
@@ -93,22 +86,29 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  background: var(--hover-color);
+  color: white; 
+  transform: scale(1.03);
+}
+
+
 /* responsivenes */
 @media (max-width: 1000px) {
-  .contact-text {
+  .contact-image {
     display: none;
   }
 
   .container {
     padding: 0;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .form-box {
     max-width: 80%;
-    padding: 20px;
     box-sizing: border-box;
     margin: 20vh 9vw 5vh 9vw;
-
   }
 }
