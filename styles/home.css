@@ -454,6 +454,8 @@ body {
   height: 60px;
   object-fit: cover;
   border-radius: 100%;
+  margin-top: 4px;
+  padding: 3px;
   border: 2px solid var(--primary-color);
   transition: 0.3s;
 }
@@ -463,16 +465,10 @@ body {
   font-weight: 600;
   color: var(--primary-color);
   transition: 0.3s;
-  margin: 1rem;
+  margin: 2rem;
 }
 
-.section__card h6 {
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--text-light);
-  transition: 0.3s;
-  margin: 1rem;
-}
+
 
 .section__card:hover::before {
   width: 400%;
@@ -482,7 +478,7 @@ body {
   color: white;
 }
 
-.section__card:hover :is(p, h6) {
+.section__card:hover :is(p) {
   color: white;
 }
 
