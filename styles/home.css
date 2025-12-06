@@ -389,10 +389,8 @@ body {
 }
 
 .testimonal-title {
-  /* border: white 1px solid; */
   text-align: center;
   color: var(--main-text);
-  font-family: "Lobster Two", sans-serif;
   font-size: 4rem;
 }
 
@@ -429,6 +427,20 @@ body {
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 }
+
+
+@media (max-width: 1000px) {
+  .section__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section__card {
+    width: 60%;
+    margin: 0 auto;
+  }
+}
+
+
 
 .section__card {
   position: relative;
