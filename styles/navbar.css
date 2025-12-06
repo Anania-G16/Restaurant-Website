@@ -99,3 +99,7 @@
     text-align: center;
   }
 }
+
+.nav-links a.active {
+  color: rgb(213, 154, 15);
+}
