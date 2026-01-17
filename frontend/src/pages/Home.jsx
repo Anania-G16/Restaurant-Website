@@ -90,7 +90,7 @@ function Home() {
               to impress.
             </p>
             <div className="buttons-container">
-              <Link to="/contact" className="book-table">
+              <Link to="/reservation" className="book-table">
                 Book a Table
               </Link>
               <Link to="/menu" className="explore-more book-table">
