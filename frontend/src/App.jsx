@@ -7,6 +7,16 @@ import About from "./pages/About";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import Navbar from "./components/Navbar";
+
+// Reservation & Admin Imports
+import Reservation from "./pages/Reservation";
+import AdminLayout from "./pages/admin/AdminLayout";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminMenu from "./pages/admin/AdminMenu";
+import AdminOrders from "./pages/admin/AdminOrders";
+import AdminReservations from "./pages/admin/AdminReservations";
+import AdminMessages from "./pages/admin/AdminMessages";
+
 import "./App.css";
 
 function App() {
@@ -15,13 +25,26 @@ function App() {
       <Navbar />
 
       <Routes>
-        // Main Page routing
+        // Main Page routing 
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/about" element={<About />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
-        //Page not found route
+
+        //Reservation Route 
+        <Route path="/reservation" element={<Reservation />} />
+
+        //Admin Routes 
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="menu" element={<AdminMenu />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="reservations" element={<AdminReservations />} />
+          <Route path="messages" element={<AdminMessages />} />
+        </Route>
+
+        //Catch-all 404 Route 
         <Route
           path="*"
           element={

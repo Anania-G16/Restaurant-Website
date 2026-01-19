@@ -35,6 +35,7 @@ function Navbar() {
           <NavLink to="/about">About</NavLink>
           <NavLink to="/gallery">Gallery</NavLink>
           <NavLink to="/contact">Contact</NavLink>
+          <NavLink to="/reservation">Reservation</NavLink>
         </div>
       </div>
     </header>
