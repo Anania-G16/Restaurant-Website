@@ -34,8 +34,6 @@ function Contact() {
 
   return (
     <>
-      <Navbar />
-
       <main className="contact-main">
         <section className="container">
           <div className="form-box">

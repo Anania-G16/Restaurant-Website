@@ -53,7 +53,6 @@ function Menu() {
 
   return (
     <>
-      <Navbar />
       <header className="menu-header">
         <div className="hero">
           <h1>MENU</h1>

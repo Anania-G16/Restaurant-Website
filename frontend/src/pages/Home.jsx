@@ -75,9 +75,7 @@ const TESTIMONIALS = [
 function Home() {
   return (
     <>
-      <Navbar />
-
-      <main>
+       <main>
         {/* Hero Section */}
         <section className="hero-container">
           <div className="hero-text">

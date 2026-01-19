@@ -32,8 +32,6 @@ const COLUMN_THREE = [img11, img12, img7, img13, img14, img18, img20];
 function Gallery() {
   return (
     <>
-      <Navbar />
-
       <main>
         <section className="main-container">
           {/* Column 1 */}

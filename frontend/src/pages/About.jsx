@@ -18,8 +18,6 @@ const RESTAURANT_STATS = [
 function About() {
   return (
     <>
-      <Navbar />
-
       <header className="about-hero">
         <div className="hero">
           <div className="slogan">About us</div>
