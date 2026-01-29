@@ -6,7 +6,12 @@ import Menu from "./pages/Menu";
 import About from "./pages/About";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
+import AdminLogin from "./pages/AdminLogin";
+import Signup from "./pages/Signup";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
+
 
 // Reservation & Admin Imports
 import Reservation from "./pages/Reservation";
@@ -26,11 +31,16 @@ function App() {
 
       <Routes>
         // Main Page routing 
+
+     
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/about" element={<About />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
+         <Route path="/AdminLogin" element={<AdminLogin />} />
+        <Route path="/signup" element={<Signup />} />
+        
 
         //Reservation Route 
         <Route path="/reservation" element={<Reservation />} />
@@ -44,6 +54,7 @@ function App() {
           <Route path="messages" element={<AdminMessages />} />
         </Route>
 
+   
         //Catch-all 404 Route 
         <Route
           path="*"
@@ -56,6 +67,8 @@ function App() {
           }
         />
       </Routes>
+
+      <Footer />
     </>
   );
 }

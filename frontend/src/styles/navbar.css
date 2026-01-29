@@ -1,10 +1,10 @@
-/* Navbar */
-
+/* Navbar Container */
 .navbar-container {
   display: flex;
   justify-content: space-between;
+  align-items: center; /* Ensures logo and nav-links are vertically aligned */
   background-color: hsl(197, 15%, 9%);
-  padding: 0 20px;
+  padding: 0 40px; /* Added side padding for better spacing from screen edges */
   position: fixed;
   top: 0;
   right: 0;
@@ -12,7 +12,9 @@
   height: 13vh;
   z-index: 100;
   font-family: "Times New Roman", Times, serif;
-  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    backdrop-filter 0.3s ease;
 }
 
 .navbar-container.scrolled {
@@ -21,9 +23,12 @@
   backdrop-filter: blur(10px);
 }
 
+/* Logo Section */
 .logo {
   font-size: 1.4rem;
   font-family: "Playwrite US Trad Guides", cursive;
+  display: flex;
+  align-items: center;
 }
 
 .logo img {
@@ -33,6 +38,7 @@
   padding: 7px 5px;
 }
 
+/* Mobile Hamburger */
 .hamburger-icon-container {
   display: flex;
   flex-direction: column;
@@ -42,41 +48,47 @@
 .hamburger-icon {
   height: 4rem;
   border-radius: 1rem;
+  cursor: pointer;
 }
 
 .hamburger-icon:hover {
   background-color: hsl(196, 16%, 18%);
 }
 
+/* Navigation Links - Mobile Sidebar Logic */
 .nav-links {
   position: fixed;
   display: flex;
   right: -100%;
   top: 0;
   height: 100vh;
-  width: 40vw;
+  width: 60vw; /* Reduced from 40vw to make mobile menu more usable */
   background-color: hsl(197, 15%, 9%);
-
   flex-direction: column;
+  justify-content: center; /* Centers links vertically in mobile drawer */
+  align-items: center;
   z-index: 2;
   transition: right ease-in 0.5s;
-}
-
-.nav-links a {
-  color: white;
-  text-decoration: none;
-  padding: 2rem 1rem;
-  font-size: 1.2rem;
-}
-
-.nav-links a:hover {
-  background-color: var(--bg-color);
+  gap: 1rem; /* Space between links on mobile */
 }
 
 .nav-links.active {
   right: 0;
 }
 
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+
+  white-space: nowrap; /* Forces "Admin Login" to stay in one line */
+}
+
+.nav-links a.active {
+  color: rgb(213, 154, 15); /* The gold/orange color from your image */
+}
+
+/* Desktop Styles (The "Gap" Fix) */
 @media (min-width: 768px) {
   .hamburger-icon {
     display: none;
@@ -85,21 +97,27 @@
   .nav-links {
     position: static;
     flex-direction: row;
-    height: auto;
-    width: 55vw;
+    height: 100%;
+    width: auto; /* REMOVED 55vw - this stops the stretching */
     background: transparent;
+
+    /* ADJUST THIS VALUE to increase or decrease the gap between links */
+    gap: 20px;
+
+    display: flex;
+    align-items: center;
   }
 
   .nav-links a {
     padding: 0;
-    flex: 1;
+    flex: none; /* REMOVED flex: 1 - this stops them from filling space */
     display: flex;
-    justify-content: center;
     align-items: center;
-    text-align: center;
+    height: 100%;
   }
-}
 
-.nav-links a.active {
-  color: rgb(213, 154, 15);
+  .nav-links a:hover {
+    background-color: transparent; /* Cleaner look for desktop */
+    color: rgb(234, 169, 18);
+  }
 }

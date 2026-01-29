@@ -105,7 +105,7 @@ function About() {
         </section>
       </main>
 
-      <Footer />
+  
     </>
   );
 }
