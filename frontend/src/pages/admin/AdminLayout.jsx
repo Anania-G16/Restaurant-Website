@@ -1,19 +1,12 @@
 import { Outlet, Link } from "react-router-dom";
-
+import "../../styles/AdminLayout.css"
 function AdminLayout() {
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
+    <div className="layout-aside-container">
       {/* Sidebar */}
-      <aside
-        style={{
-          width: "220px",
-          background: "#222",
-          color: "#fff",
-          padding: "20px",
-        }}
-      >
+      <aside className="admin-layout-aside">
         <h2>Admin</h2>
-        <nav style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <nav className="layout-nav">
           <Link to="/admin" style={{ color: "#fff" }}>Dashboard</Link>
           <Link to="/admin/menu" style={{ color: "#fff" }}>Menu</Link>
           <Link to="/admin/orders" style={{ color: "#fff" }}>Orders</Link>
@@ -23,7 +16,7 @@ function AdminLayout() {
       </aside>
 
       {/* Main Content */}
-      <main style={{ flex: 1, padding: "30px" }}>
+      <main className="layout-main">
         <Outlet />
       </main>
     </div>

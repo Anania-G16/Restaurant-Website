@@ -1,0 +1,25 @@
+.admin-layout-aside{
+    width: 220px;
+    background:#222;
+    color: #fff;
+    padding: 20px
+}
+
+.layout-aside-container{
+   display: flex;
+   min-height:100vh;
+   /* background-color: black; */
+}
+
+.layout-nav{
+    display: flex;
+    flex-direction:column; 
+    gap: 10px;
+    
+    color:blue;
+}
+
+.layout-main{
+    flex: 1;
+    padding: 30px
+}

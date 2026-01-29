@@ -1,3 +1,4 @@
+import "../../styles/AdminReservation.css"
 function AdminReservations() {
   const reservations = [
     { id: 1, name: "Michael", date: "2025-01-20", time: "18:00", guests: 4 },
@@ -6,7 +7,7 @@ function AdminReservations() {
 
   return (
     <div>
-      <h1>Reservations</h1>
+      <h1 className="admin-res-h1">Reservations</h1>
 
       <table border="1" cellPadding="10">
         <thead>
