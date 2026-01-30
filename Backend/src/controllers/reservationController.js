@@ -1,6 +1,6 @@
 import { supabase } from "../config/db.js";
 
-/* -------------------- USER RESERVATIONS -------------------- */
+/* -------------------- USER reservations -------------------- */
 
 // Make a reservation
 export const createReservation = async (req, res) => {
@@ -15,7 +15,7 @@ export const createReservation = async (req, res) => {
   try {
     // Check for conflicting reservations
     const { data: conflicts, error: conflictError } = await supabase
-      .from("Reservations")
+      .from("reservations")
       .select("*")
       .eq("table_number", table_number || null)
       .eq("reservation_time", reservation_time)
@@ -29,7 +29,7 @@ export const createReservation = async (req, res) => {
 
     // Insert reservation
     const { data, error } = await supabase
-      .from("Reservations")
+      .from("reservations")
       .insert([
         {
           user_id: userId,
@@ -56,7 +56,7 @@ export const getUserReservations = async (req, res) => {
 
   try {
     const { data, error } = await supabase
-      .from("Reservations")
+      .from("reservations")
       .select("*")
       .eq("user_id", userId)
       .order("reservation_time", { ascending: true });
@@ -70,13 +70,13 @@ export const getUserReservations = async (req, res) => {
   }
 };
 
-/* -------------------- ADMIN RESERVATIONS -------------------- */
+/* -------------------- ADMIN reservations -------------------- */
 
 // Get all reservations
 export const getAllReservations = async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from("Reservations")
+      .from("reservations")
       .select("*, Users(name, email)")
       .order("reservation_time", { ascending: true });
 
@@ -100,7 +100,7 @@ export const updateReservationStatus = async (req, res) => {
 
   try {
     const { data, error } = await supabase
-      .from("Reservations")
+      .from("reservations")
       .update({ status, updated_at: new Date() })
       .eq("id", id)
       .select()

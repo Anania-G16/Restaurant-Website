@@ -1,4 +1,3 @@
-import express from "express";
 import { authMiddleware } from "../middleware/auth.js";
 import { adminMiddleware } from "../middleware/admin.js";
 import {
@@ -13,30 +12,42 @@ import {
   deleteMenuCategory,
 } from "../controllers/menuController.js";
 
-const router = express.Router();
+export const routes = [
+  // Public
+  { method: "GET", path: "/", handlers: [getMenuItems] },
+  { method: "GET", path: "/categories", handlers: [getMenuCategories] },
+  { method: "GET", path: "/:id", handlers: [getMenuItemById] },
 
-// ------------------ PUBLIC ROUTES ------------------
-router.get("/", getMenuItems);
-router.get("/categories", getMenuCategories);
-router.get("/:id", getMenuItemById);
+  // Admin
+  {
+    method: "POST",
+    path: "/",
+    handlers: [authMiddleware, adminMiddleware, addMenuItem],
+  },
+  {
+    method: "PATCH",
+    path: "/:id",
+    handlers: [authMiddleware, adminMiddleware, updateMenuItem],
+  },
+  {
+    method: "DELETE",
+    path: "/:id",
+    handlers: [authMiddleware, adminMiddleware, deleteMenuItem],
+  },
 
-// ------------------ ADMIN ROUTES ------------------
-router.post("/", authMiddleware, adminMiddleware, addMenuItem);
-router.patch("/:id", authMiddleware, adminMiddleware, updateMenuItem);
-router.delete("/:id", authMiddleware, adminMiddleware, deleteMenuItem);
-
-router.post("/categories", authMiddleware, adminMiddleware, addMenuCategory);
-router.patch(
-  "/categories/:id",
-  authMiddleware,
-  adminMiddleware,
-  updateMenuCategory,
-);
-router.delete(
-  "/categories/:id",
-  authMiddleware,
-  adminMiddleware,
-  deleteMenuCategory,
-);
-
-export default router;
+  {
+    method: "POST",
+    path: "/categories",
+    handlers: [authMiddleware, adminMiddleware, addMenuCategory],
+  },
+  {
+    method: "PATCH",
+    path: "/categories/:id",
+    handlers: [authMiddleware, adminMiddleware, updateMenuCategory],
+  },
+  {
+    method: "DELETE",
+    path: "/categories/:id",
+    handlers: [authMiddleware, adminMiddleware, deleteMenuCategory],
+  },
+];

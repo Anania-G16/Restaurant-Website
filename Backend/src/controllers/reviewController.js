@@ -1,6 +1,6 @@
 import { supabase } from "../config/db.js";
 
-/* -------------------- USER REVIEWS -------------------- */
+/* -------------------- USER reviews -------------------- */
 
 // Submit a review for a menu item
 export const submitReview = async (req, res) => {
@@ -14,7 +14,7 @@ export const submitReview = async (req, res) => {
 
   try {
     const { data, error } = await supabase
-      .from("Reviews")
+      .from("reviews")
       .insert([
         { user_id: userId, menu_item_id, rating, comment: comment || null },
       ])
@@ -36,8 +36,8 @@ export const getReviewsForMenuItem = async (req, res) => {
 
   try {
     const { data, error } = await supabase
-      .from("Reviews")
-      .select("id, user_id, rating, comment, created_at, Users(name)")
+      .from("reviews")
+      .select("id, user_id, rating, comment, created_at, users(name)")
       .eq("menu_item_id", menu_item_id)
       .order("created_at", { ascending: false });
 

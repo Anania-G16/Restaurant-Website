@@ -1,4 +1,3 @@
-import express from "express";
 import { authMiddleware } from "../middleware/auth.js";
 import { adminMiddleware } from "../middleware/admin.js";
 import {
@@ -6,13 +5,15 @@ import {
   updateOrderStatus,
 } from "../controllers/adminOrderController.js";
 
-const router = express.Router();
-
-// All routes protected by auth + admin
-router.use(authMiddleware);
-router.use(adminMiddleware);
-
-router.get("/", getAllOrders); // View all orders
-router.patch("/:id/status", updateOrderStatus); // Update order status
-
-export default router;
+export const routes = [
+  {
+    method: "GET",
+    path: "/",
+    handlers: [authMiddleware, adminMiddleware, getAllOrders],
+  },
+  {
+    method: "PATCH",
+    path: "/:id/status",
+    handlers: [authMiddleware, adminMiddleware, updateOrderStatus],
+  },
+];

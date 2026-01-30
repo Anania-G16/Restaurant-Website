@@ -11,7 +11,7 @@ export const submitMessage = async (req, res) => {
 
   try {
     const { data, error } = await supabase
-      .from("ContactMessages")
+      .from("contactmessages")
       .insert([
         {
           user_id: userId,
@@ -40,7 +40,7 @@ export const submitMessage = async (req, res) => {
 export const getAllMessages = async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from("ContactMessages")
+      .from("contactmessages")
       .select(
         "id, user_id, name, email, message, created_at, Users(name, email)",
       )

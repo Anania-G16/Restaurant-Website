@@ -1,6 +1,6 @@
 import { supabase } from "../config/db.js";
 
-/* -------------------- USER CART & ORDERS -------------------- */
+/* -------------------- USER CART & orders -------------------- */
 
 // Get current cart (pending order)
 export const getCart = async (req, res) => {
@@ -9,7 +9,7 @@ export const getCart = async (req, res) => {
   try {
     // Find pending order for user
     const { data: orderData, error: orderError } = await supabase
-      .from("Orders")
+      .from("orders")
       .select("id, total_price")
       .eq("user_id", userId)
       .eq("status", "pending")
@@ -19,7 +19,7 @@ export const getCart = async (req, res) => {
 
     // Fetch order items
     const { data: items, error: itemsError } = await supabase
-      .from("OrderItems")
+      .from("orderitems")
       .select("id, menu_item_id, quantity, price")
       .eq("order_id", orderData.id);
 
@@ -47,7 +47,7 @@ export const addToCart = async (req, res) => {
   try {
     // Check if pending order exists
     let { data: pendingOrder, error } = await supabase
-      .from("Orders")
+      .from("orders")
       .select("*")
       .eq("user_id", userId)
       .eq("status", "pending")
@@ -56,7 +56,7 @@ export const addToCart = async (req, res) => {
     // If no pending order, create one
     if (!pendingOrder) {
       const { data, error: createError } = await supabase
-        .from("Orders")
+        .from("orders")
         .insert([{ user_id: userId, total_price: 0 }])
         .select()
         .single();
@@ -67,7 +67,7 @@ export const addToCart = async (req, res) => {
 
     // Get menu item price
     const { data: menuItem, error: menuError } = await supabase
-      .from("MenuItems")
+      .from("menuitems")
       .select("price, available")
       .eq("id", menu_item_id)
       .single();
@@ -79,9 +79,9 @@ export const addToCart = async (req, res) => {
 
     const price = menuItem.price * quantity;
 
-    // Insert into OrderItems
+    // Insert into orderitems
     const { data: orderItem, error: insertError } = await supabase
-      .from("OrderItems")
+      .from("orderitems")
       .insert([
         {
           order_id: pendingOrder.id,
@@ -95,9 +95,9 @@ export const addToCart = async (req, res) => {
 
     if (insertError) throw insertError;
 
-    // Update total_price in Orders table
+    // Update total_price in orders table
     const { data: updatedOrder, error: updateError } = await supabase
-      .from("Orders")
+      .from("orders")
       .update({ total_price: pendingOrder.total_price + price })
       .eq("id", pendingOrder.id)
       .select()
@@ -123,7 +123,7 @@ export const updateCartItem = async (req, res) => {
   try {
     // Get the cart item
     const { data: cartItem, error } = await supabase
-      .from("OrderItems")
+      .from("orderitems")
       .select("id, price, quantity, order_id")
       .eq("id", itemId)
       .single();
@@ -136,7 +136,7 @@ export const updateCartItem = async (req, res) => {
     if (quantity === 0) {
       // Remove item
       const { error: deleteError } = await supabase
-        .from("OrderItems")
+        .from("orderitems")
         .delete()
         .eq("id", itemId);
       if (deleteError) throw deleteError;
@@ -146,7 +146,7 @@ export const updateCartItem = async (req, res) => {
       const newPrice = unitPrice * quantity;
 
       const { data, error: updateError } = await supabase
-        .from("OrderItems")
+        .from("orderitems")
         .update({ quantity, price: newPrice })
         .eq("id", itemId)
         .select()
@@ -155,9 +155,9 @@ export const updateCartItem = async (req, res) => {
       if (updateError) throw updateError;
     }
 
-    // Update total_price in Orders table
+    // Update total_price in orders table
     const { data: orderData, error: orderError } = await supabase
-      .from("OrderItems")
+      .from("orderitems")
       .select("order_id, SUM(price) as total_price")
       .eq("order_id", cartItem.order_id)
       .single();
@@ -165,7 +165,7 @@ export const updateCartItem = async (req, res) => {
     let totalPrice = orderData ? orderData.total_price : 0;
 
     await supabase
-      .from("Orders")
+      .from("orders")
       .update({ total_price: totalPrice })
       .eq("id", cartItem.order_id);
 
@@ -183,7 +183,7 @@ export const checkoutOrder = async (req, res) => {
   try {
     // Find pending order
     const { data: pendingOrder, error } = await supabase
-      .from("Orders")
+      .from("orders")
       .select("*")
       .eq("user_id", userId)
       .eq("status", "pending")
@@ -194,7 +194,7 @@ export const checkoutOrder = async (req, res) => {
 
     // Update status to confirmed
     const { data: updatedOrder, error: updateError } = await supabase
-      .from("Orders")
+      .from("orders")
       .update({ status: "confirmed", updated_at: new Date() })
       .eq("id", pendingOrder.id)
       .select()
@@ -215,9 +215,9 @@ export const getOrderHistory = async (req, res) => {
 
   try {
     const { data: orders, error } = await supabase
-      .from("Orders")
+      .from("orders")
       .select(
-        "id, status, total_price, created_at, OrderItems(id, menu_item_id, quantity, price)",
+        "id, status, total_price, created_at, orderitems(id, menu_item_id, quantity, price)",
       )
       .eq("user_id", userId)
       .neq("status", "pending")
