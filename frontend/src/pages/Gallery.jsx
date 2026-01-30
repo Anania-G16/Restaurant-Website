@@ -20,8 +20,7 @@ import img16 from "../assets/images/image_16.jpg";
 import img17 from "../assets/images/image_17.jpg";
 import img18 from "../assets/images/image_18.jpg";
 
-// Define the static array
-
+// Images as static array
 const IMAGES = [
   { id: 1, src: img1, alt: "Gallery Image 1" },
   { id: 2, src: img2, alt: "Gallery Image 2" },

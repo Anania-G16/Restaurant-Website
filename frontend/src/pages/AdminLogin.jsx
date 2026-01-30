@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Need this for redirecting
+import { useNavigate } from "react-router-dom"; 
 import axios from "axios";
 import "../styles/AdminLogin.css";
 
@@ -23,7 +23,7 @@ function AdminLogin() {
     setError(""); // Clear previous errors
 
     try {
-      // 1. Send request to the backend
+      // Send request to the backend
       const response = await axios.post(
         "http://localhost:5000/auth/login",
         formData,
@@ -31,7 +31,7 @@ function AdminLogin() {
 
       const { token, role } = response.data;
 
-      // 2. Check if the user is actually an admin
+      // Check if the user is actually an admin
       if (role === "admin") {
         // Store auth data
         localStorage.setItem("token", token);
@@ -39,7 +39,7 @@ function AdminLogin() {
 
         alert("Admin Login Successful!");
 
-        // 3. Redirect to Admin Dashboard
+        // Redirect to Admin Dashboard
         navigate("/admin");
       } else {
         // If a regular customer tries to use the admin portal
@@ -60,7 +60,7 @@ function AdminLogin() {
         Please fill the form below to access the portal.
       </p>
 
-      {/* Error Message Display */}
+      {/* Error Message*/}
       {error && (
         <p
           style={{

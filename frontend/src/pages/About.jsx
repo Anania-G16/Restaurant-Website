@@ -5,7 +5,7 @@ import buffetImg from "../assets/images/buffet.jpg";
 import storyVideo1 from "../assets/video/video-2.mp4";
 import burgerVideo from "../assets/video/burger.mp4";
 
-// 1. Data for Stats
+// Stats Data
 const RESTAURANT_STATS = [
   { id: 1, value: "25", label: "Years of Experience" },
   { id: 2, value: "10", label: "Professional Chefs" },

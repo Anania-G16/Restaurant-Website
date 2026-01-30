@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios"; // 1. Import Axios
+import axios from "axios";
 import "../styles/AdminLogin.css";
 
 function Login() {
-  const navigate = useNavigate(); // For redirecting after login
+  const navigate = useNavigate(); // redirect after login
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -17,27 +17,27 @@ function Login() {
     });
   }
 
-  // 2. Make this function ASYNC
+  //  ASYNC Function
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
-      // 3. Point this to your backend URL
+      // Point this to your backend URL
       const response = await axios.post(
         "http://localhost:5000/auth/login",
         formData,
       );
 
-      // 4. Save the token returned by your backend
+      // Save the token returned by your backend
       const token = response.data.token;
       localStorage.setItem("token", token);
 
       alert("Login successful!");
 
-      // 5. Redirect the user (e.g., to the menu or admin dashboard)
+      // Redirect the user
       navigate("/");
     } catch (err) {
-      // Handle errors (wrong password, user doesn't exist, etc.)
+      // Handle errors
       console.error("Login Error:", err.response?.data || err.message);
       alert(
         err.response?.data?.error || "Login failed. Check your credentials.",
@@ -75,7 +75,8 @@ function Login() {
           Sign In
         </button>
       </form>
-      {/* NEW: Link to Register */}
+
+      {/*Link to register */}
       <p className="admin-link-text">
         New user? <Link to="/register">Register here</Link>
       </p>

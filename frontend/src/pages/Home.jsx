@@ -74,7 +74,6 @@ function Home() {
   return (
     <>
       <main>
-        {/* Hero Section */}
         <section className="hero-container">
           <div className="hero-text">
             <p className="slogan">

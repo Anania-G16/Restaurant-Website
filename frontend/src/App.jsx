@@ -8,7 +8,6 @@ import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import AdminLogin from "./pages/AdminLogin";
 import Login from "./pages/Login";
-import Signup from "./pages/Signup";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Cart from "./pages/Cart"; // Ensure this path is correct
