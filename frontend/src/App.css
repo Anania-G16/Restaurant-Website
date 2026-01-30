@@ -26,7 +26,7 @@ main {
 
 /* Ensure Navbar and Footer have their own backgrounds so they don't look transparent */
 nav {
-  background-color: #000000; /* Change to your Navbar color */
+  /* background-color: #000000; Change to your Navbar color */
 }
 
 footer {

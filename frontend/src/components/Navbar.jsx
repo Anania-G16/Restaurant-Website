@@ -1,7 +1,6 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom"; // Added Link if you want to use both, but NavLink is better here
 import "../styles/navbar.css";
 
-// Importing assets allows React to process them (hashing for cache busting)
 import logo from "../assets/images/Logo.png";
 import hamburger from "../assets/icons/hamburger.svg";
 
@@ -16,7 +15,7 @@ function Navbar() {
           </NavLink>
         </div>
 
-        {/* Hamburger icon (for mobile responsiveness) */}
+        {/* Hamburger icon */}
         <div className="hamburger-icon-container">
           <img
             src={hamburger}
@@ -27,15 +26,27 @@ function Navbar() {
 
         {/* Navigation links */}
         <div className="nav-links">
-          {/* 'end' ensures Home isn't highlighted when on /about or /menu */}
-          <NavLink to="/" end>
-            Home
-          </NavLink>
+          <NavLink to="/" end>Home</NavLink>
+          
+          {/* Changed these to NavLink to match your style and fixed the missing import issue */}
+          
           <NavLink to="/menu">Menu</NavLink>
           <NavLink to="/about">About</NavLink>
           <NavLink to="/gallery">Gallery</NavLink>
           <NavLink to="/contact">Contact</NavLink>
-          <NavLink to="/reservation">Reservation</NavLink>
+          <NavLink to="/cart">Cart</NavLink>
+        <NavLink 
+  to="/AdminLogin" 
+  className="nav-item-admin" 
+  style={{ 
+    whiteSpace: "nowrap", 
+    display: "inline-flex", 
+    alignItems: "center",
+    marginLeft: "5px" 
+  }}
+>
+  Admin Login
+</NavLink> 
         </div>
       </div>
     </header>

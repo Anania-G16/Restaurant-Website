@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "../styles/about.css";
@@ -11,9 +12,39 @@ import burgerVideo from "../assets/video/burger.mp4";
 const RESTAURANT_STATS = [
   { id: 1, value: "25", label: "Years of Experience" },
   { id: 2, value: "10", label: "Professional Chefs" },
-  { id: 3, value: "55,000", label: "Customers Served" },
+  { id: 3, value: "5,500", label: "Customers Served" },
   { id: 4, value: "365", label: "Days Open a Year" },
 ];
+
+// --- Sub-component to handle the counting logic ---
+const AnimatedNumber = ({ value }) => {
+  // Convert "55,000" string to 55000 number
+  const numericTarget = parseInt(value.replace(/,/g, ''));
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const duration = 2000; // 2 seconds
+    const frameDuration = 1000 / 60; // 60fps
+    const totalFrames = Math.round(duration / frameDuration);
+    const increment = numericTarget / totalFrames;
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= numericTarget) {
+        setCount(numericTarget);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, frameDuration);
+
+    return () => clearInterval(timer);
+  }, [numericTarget]);
+
+  // .toLocaleString() ensures "55000" displays as "55,000" during animation
+  return <>{count.toLocaleString()}</>;
+};
 
 function About() {
   return (
@@ -97,15 +128,15 @@ function About() {
           <div className="stats-container">
             {RESTAURANT_STATS.map((stat) => (
               <div key={stat.id} className="stat">
-                <h2>{stat.value}</h2>
+                <h2>
+                  <AnimatedNumber value={stat.value} />
+                </h2>
                 <p>{stat.label}</p>
               </div>
             ))}
           </div>
         </section>
       </main>
-
-      <Footer />
     </>
   );
 }

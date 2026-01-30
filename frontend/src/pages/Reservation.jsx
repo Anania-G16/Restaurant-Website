@@ -14,7 +14,7 @@ function Reservation() {
         <ReservationForm />
       </div>
 
-      <Footer />
+
     </>
   );
 }

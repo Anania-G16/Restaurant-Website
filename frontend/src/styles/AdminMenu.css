@@ -1,0 +1,26 @@
+.admin-menu-h1{
+    color:rgb(213, 154, 15)
+}
+
+
+
+.admin-menu-form{
+    margin-bottom:20px;
+}
+
+.admin-menu-inputs{
+    display: flex;
+    gap:2rem
+}
+.admin-menu-input{
+    height: 40px;
+
+}
+.admin-menu-add{
+    background-color: rgb(53, 105, 8);
+    margin-top: 1rem;
+}
+
+.admin-menu-delete{
+    background-color: rgb(255, 72, 0);
+}

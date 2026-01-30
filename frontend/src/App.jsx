@@ -6,7 +6,11 @@ import Menu from "./pages/Menu";
 import About from "./pages/About";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
+import AdminLogin from "./pages/AdminLogin";
+import Signup from "./pages/Signup";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Cart from "./pages/Cart"; // Ensure this path is correct
 
 // Reservation & Admin Imports
 import Reservation from "./pages/Reservation";
@@ -25,17 +29,22 @@ function App() {
       <Navbar />
 
       <Routes>
-        // Main Page routing 
+        {/* Main Page routing */}
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/about" element={<About />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/AdminLogin" element={<AdminLogin />} />
+        <Route path="/signup" element={<Signup />} />
+        
+        {/* Fixed Cart Route - Path is case-sensitive depending on your NavLink */}
+        <Route path="/cart" element={<Cart />} />
 
-        //Reservation Route 
+        {/* Reservation Route */}
         <Route path="/reservation" element={<Reservation />} />
 
-        //Admin Routes 
+        {/* Admin Routes */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="menu" element={<AdminMenu />} />
@@ -44,7 +53,7 @@ function App() {
           <Route path="messages" element={<AdminMessages />} />
         </Route>
 
-        //Catch-all 404 Route 
+        {/* Catch-all 404 Route */}
         <Route
           path="*"
           element={
@@ -56,6 +65,8 @@ function App() {
           }
         />
       </Routes>
+
+      <Footer />
     </>
   );
 }

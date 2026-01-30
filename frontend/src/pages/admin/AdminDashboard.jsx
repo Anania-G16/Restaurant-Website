@@ -1,8 +1,8 @@
+import "../../styles/AdminDashboard.css"
 function AdminDashboard() {
   return (
     <div>
-      <h1>Admin Dashboard</h1>
-      <p>Welcome to the admin panel.</p>
+      <h1 className="dash-h1">Admin Dashboard</h1>
 
       <ul>
         <li>Total Orders: 24</li>

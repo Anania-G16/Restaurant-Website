@@ -1,0 +1,89 @@
+/* Container takes up full screen height */
+.admin-auth-container {
+  background-color: #12181b; /* Dark charcoal background */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 50px 20px;
+  align-items: center;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif; /* Clean sans-serif for body */
+}
+
+.auth-content {
+  text-align: center;
+  width: 100%;
+  max-width: 450px;
+  padding: 10px;
+}
+
+/* Serif font for the main title */
+.auth-title {
+  font-family: 'Georgia', serif; 
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.auth-subtitle {
+  font-size: 1rem;
+  color: #d1d1d1;
+  margin-bottom: 40px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Input Styles */
+.auth-input {
+  width: 100%;
+  padding: 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 2px; /* Very slight rounding like the image */
+  background-color: #ffffff;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.auth-input::placeholder {
+  color: #888;
+}
+
+/* The Gold Button */
+.auth-button {
+  background-color: #d4a017; /* Golden-yellow color */
+  color: white;
+  padding: 15px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: #b88a14;
+}
+
+/* Footer Link styling */
+.auth-footer {
+  margin-top: 30px;
+  font-size: 0.95rem;
+  color: #ffffff;
+}
+
+.register-link {
+  color: #d4a017;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}

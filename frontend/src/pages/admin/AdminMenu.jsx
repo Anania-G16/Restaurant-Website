@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../../styles/AdminMenu.css"
 
 function AdminMenu() {
   const [menuItems, setMenuItems] = useState([
@@ -29,24 +30,29 @@ function AdminMenu() {
 
   return (
     <div>
-      <h1>Manage Menu</h1>
+      <h1 className="admin-menu-h1">Manage Menu</h1>
 
       {/* Add Menu Item */}
-      <form onSubmit={addItem} style={{ marginBottom: "20px" }}>
+      <form onSubmit={addItem} className="admin-menu-form" >
+        <div className="admin-menu-inputs">
         <input
           placeholder="Item name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
+          className="admin-menu-input"
         />
         <input
           placeholder="Price"
           type="number"
+          min="1"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           required
+          className="admin-menu-input"
         />
-        <button type="submit">Add Item</button>
+        </div>
+        <button type="submit" className="admin-menu-add">Add Item</button>
       </form>
 
       {/* Menu List */}
@@ -54,7 +60,7 @@ function AdminMenu() {
         {menuItems.map(item => (
           <li key={item.id}>
             {item.name} - ${item.price}
-            <button onClick={() => deleteItem(item.id)}>Delete</button>
+            <button onClick={() => deleteItem(item.id)} className="admin-menu-delete">Delete</button>
           </li>
         ))}
       </ul>
