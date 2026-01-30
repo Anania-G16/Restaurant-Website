@@ -7,6 +7,7 @@ import About from "./pages/About";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import AdminLogin from "./pages/AdminLogin";
+import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -36,7 +37,7 @@ function App() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/AdminLogin" element={<AdminLogin />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
         
         {/* Fixed Cart Route - Path is case-sensitive depending on your NavLink */}
         <Route path="/cart" element={<Cart />} />
