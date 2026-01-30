@@ -1,4 +1,5 @@
 import Navbar from "../components/Navbar";
+import ReservationForm from "../components/ReservationForm";
 
 function Reservation() {
   return (
@@ -8,7 +9,7 @@ function Reservation() {
       <div style={{ padding: "80px 20px", textAlign: "center" }}>
         <h1>Reserve a Table</h1>
         <p>Please fill the form below to make a reservation.</p>
-
+        <ReservationForm />
       
       </div>
 
