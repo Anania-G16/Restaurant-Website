@@ -1,65 +1,37 @@
-import { useState } from "react";
-
-function AdminMenu() {
-  const [menuItems, setMenuItems] = useState([
-    { id: 1, name: "Burger", price: 25 },
-    { id: 2, name: "Pizza", price: 35 },
-  ]);
-
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-
-  function addItem(e) {
-    e.preventDefault();
-
-    const newItem = {
-      id: Date.now(),
-      name,
-      price,
-    };
-
-    setMenuItems([...menuItems, newItem]);
-    setName("");
-    setPrice("");
-  }
-
-  function deleteItem(id) {
-    setMenuItems(menuItems.filter(item => item.id !== id));
-  }
+import "../../styles/AdminOrder.css"
+function AdminOrders() {
+  const orders = [
+    { id: 1, customer: "John", total: 120, status: "Pending" },
+    { id: 2, customer: "Sara", total: 80, status: "Completed" },
+  ];
 
   return (
     <div>
-      <h1>Manage Menu</h1>
+      <h1 className="admin-order-h1">Orders</h1>
 
-      {/* Add Menu Item */}
-      <form onSubmit={addItem} style={{ marginBottom: "20px" }}>
-        <input
-          placeholder="Item name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          placeholder="Price"
-          type="number"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          required
-        />
-        <button type="submit">Add Item</button>
-      </form>
+      <table border="1" cellPadding="10">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Total</th>
+            <th>Status</th>
+          </tr>
+        </thead>
 
-      {/* Menu List */}
-      <ul>
-        {menuItems.map(item => (
-          <li key={item.id}>
-            {item.name} - ${item.price}
-            <button onClick={() => deleteItem(item.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+        <tbody>
+          {orders.map(order => (
+            <tr key={order.id}>
+              <td>{order.id}</td>
+              <td>{order.customer}</td>
+              <td>${order.total}</td>
+              <td>{order.status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
 
-export default AdminMenu;
+export default AdminOrders;
