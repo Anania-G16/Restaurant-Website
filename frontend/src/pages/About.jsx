@@ -18,7 +18,7 @@ const RESTAURANT_STATS = [
 
 // --- Sub-component to handle the counting logic ---
 const AnimatedNumber = ({ value }) => {
-  // Convert "55,000" string to 55000 number
+
   const numericTarget = parseInt(value.replace(/,/g, ''));
   const [count, setCount] = useState(0);
 

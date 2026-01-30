@@ -71,3 +71,25 @@
     text-decoration: none;
     font-weight: bold;
 }
+
+.admin-link-text {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: var(--secondary-text); /* The greyish color for "Admin?" */
+  text-align: center;
+}
+
+.admin-link-text a {
+  /* This uses the yellowish color from your :root */
+  color: var(--secondary-color); 
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 5px;
+  transition: color 0.3s ease;
+}
+
+.admin-link-text a:hover {
+  /* This makes it slightly brighter/different on hover */
+  color: var(--main-text); 
+  text-decoration: underline;
+}

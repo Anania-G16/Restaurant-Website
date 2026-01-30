@@ -18,16 +18,20 @@ body,
 }
 
 /* Make the main content span the full viewport height so background shows */
+
+/* Update this in App.css */
 main {
   background-color: var(--bg-dark);
   min-height: 100vh;
   width: 100%;
+  
+  /* Add these lines to fix the gap */
+  display: flex;
+  flex-direction: column;
+  padding-top: 4rem !important; /* The !important ensures it beats the hidden 8rem */
+  gap: 0; 
 }
 
-/* Ensure Navbar and Footer have their own backgrounds so they don't look transparent */
-nav {
-  /* background-color: #000000; Change to your Navbar color */
-}
 
 footer {
   background-color: #111111; /* Change to your Footer color */
