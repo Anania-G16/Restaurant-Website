@@ -52,6 +52,21 @@ const runHandlers = async (handlers, req, res) => {
 };
 
 const server = http.createServer(async (req, res) => {
+  // --- 1. SET CORS HEADERS (Must be first) ---
+  res.setHeader("Access-Control-Allow-Origin", "*"); // Allows Axios from any port
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  // --- 2. HANDLE PRE-FLIGHT OPTIONS REQUEST ---
+  // Axios sends this to check if the server is "allowed" to talk
+  if (req.method === "OPTIONS") {
+    res.writeHead(204);
+    return res.end();
+  }
+
   try {
     const url = new URL(req.url, `http://${req.headers.host}`);
     const pathname = url.pathname;

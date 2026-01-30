@@ -1,97 +1,123 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/menu.css";
-import { MOCK_MENU_DATA } from './MockData'; 
 
 function Menu() {
-  const [menuItems, setMenuItems] = useState({ specials: [], healthy: [] });
+  const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  
-  // State for the notification
   const [toast, setToast] = useState({ show: false, message: "" });
 
-  // Update this URL to match your friend's backend address
-  const API_URL = "http://localhost:5000/api/cart";
+  const MENU_API_URL = "http://localhost:5000/menu";
+  // Verify this matches your server.js route prefix (e.g., /api/orders or /orders)
+  const ORDER_API_URL = "http://localhost:5000/orders/add";
 
   useEffect(() => {
-    // Setting menu from MockData
-    setMenuItems(MOCK_MENU_DATA);
-    setLoading(false)
+    const fetchMenu = async () => {
+      try {
+        const response = await axios.get(MENU_API_URL);
+        setMenuItems(response.data.menu || []);
+      } catch (error) {
+        console.error("Database connection error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMenu();
   }, []);
 
-  // --- BACKEND LOGIC (NO IMG SENT) ---
-  const addToCart = async (product) => {
-    try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          productId: product.id,
-          name: product.name,
-          price: product.price,
-          quantity: 1 
-        }),
-      });
+  const addToCart = async (item) => {
+    // 1. Get the token saved during login
+    const token = localStorage.getItem("token");
 
-      if (response.ok) {
-        // Trigger the Toast on success
-        setToast({ show: true, message: `Added ${product.name} successfully!` });
-      } else {
-        // Handle backend errors (like 400 or 500)
-        setToast({ show: true, message: "Could not add item. Try again." });
+    // 2. Security Check: Redirect or alert if not logged in
+    if (!token) {
+      setToast({ show: true, message: "Please log in to order food!" });
+      setTimeout(() => setToast({ show: false, message: "" }), 3000);
+      return;
+    }
+
+    try {
+      // 3. Send data to your orderController.addToCart
+      const response = await axios.post(
+        ORDER_API_URL,
+        {
+          menu_item_id: item.id, // Matches your controller's req.body
+          quantity: 1,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Required by your authMiddleware
+          },
+        },
+      );
+
+      if (response.status === 200 || response.status === 201) {
+        setToast({ show: true, message: `Added ${item.name} to cart!` });
       }
-    } catch (error) {
-      console.error("Backend Error:", error);
-      setToast({ show: true, message: "Server error. Check backend connection." });
+    } catch (err) {
+      console.error("Cart Error:", err.response?.data || err.message);
+      const errorMsg = err.response?.data?.error || "Failed to add item.";
+      setToast({ show: true, message: errorMsg });
     } finally {
       // Hide toast after 3 seconds
-      setTimeout(() => {
-        setToast({ show: false, message: "" });
-      }, 3000);
+      setTimeout(() => setToast({ show: false, message: "" }), 3000);
     }
   };
 
-  const renderSection = (items) => (
-    <section className="menu">
-      {items.map((item) => (
-        <div key={item.id} className="food-container">
-          <div className="pic-container">
-            <img src={item.img} alt={item.name} />
-          </div>
-          <div className="food-text">
-            <div className="food-name">{item.name}</div>
-            <div className="food-description">{item.desc}</div>
-            <div className="price">{item.price}</div>
-            <button className="add-to-cart-btn" onClick={() => addToCart(item)}>
-              Add to Cart
-            </button>
-          </div>
-        </div>
-      ))}
-    </section>
-  );
-
-  if (loading) return null;
+  if (loading)
+    return (
+      <div
+        className="menu-main"
+        style={{ color: "white", textAlign: "center" }}
+      >
+        Loading Menu...
+      </div>
+    );
 
   return (
     <main className="menu-main">
-      {/* Notification Popup */}
-      {toast.show && (
-        <div className="cart-toast">
-          {toast.message}
-        </div>
-      )}
+      {/* Dynamic Notification */}
+      {toast.show && <div className="cart-toast">{toast.message}</div>}
 
-      <div>
-        <p className="menu-type">Our Specials</p>
-        {renderSection(menuItems.specials)}
-      </div>
+      <p className="menu-type">Our Menu</p>
 
-      <div>
-        <p className="menu-type">Vegetables and Healthy</p>
-        {renderSection(menuItems.healthy)}
-      </div>
+      <section className="menu">
+        {menuItems.length > 0 ? (
+          menuItems.map((item) => (
+            <div key={item.id} className="food-container">
+              <div className="pic-container">
+                <img
+                  src={item.image_url || "https://via.placeholder.com/150"}
+                  alt={item.name}
+                />
+              </div>
+              <div className="food-text">
+                <div className="food-name">{item.name}</div>
+                <div className="food-description">{item.description}</div>
+                <div className="price">${item.price}</div>
+                <button
+                  className="add-to-cart-btn"
+                  onClick={() => addToCart(item)}
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div
+            style={{
+              color: "white",
+              padding: "40px",
+              textAlign: "center",
+              width: "100%",
+            }}
+          >
+            <h2>No items found in the database.</h2>
+            <p>Admin, please add items to the menuitems table.</p>
+          </div>
+        )}
+      </section>
     </main>
   );
 }

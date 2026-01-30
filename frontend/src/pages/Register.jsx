@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import "../styles/AdminLogin.css"; 
+import { Link, useNavigate } from "react-router-dom"; // Added useNavigate
+import axios from "axios"; // Added Axios
+import "../styles/AdminLogin.css";
 
 function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -16,16 +18,42 @@ function Register() {
     });
   }
 
-  function handleSubmit(e) {
+  // Updated to ASYNC for the API call
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log("Registration Data:", formData);
-    alert("Account created successfully!");
+
+    try {
+      // Mapping 'fullName' from frontend to 'name' for backend
+      const payload = {
+        name: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+      };
+
+      const response = await axios.post(
+        "http://localhost:5000/auth/register",
+        payload,
+      );
+
+      alert(response.data.message || "Account created successfully!");
+
+      // After registration, send them to login
+      navigate("/login");
+    } catch (err) {
+      console.error("Registration Error:", err.response?.data || err.message);
+      alert(
+        err.response?.data?.error ||
+          "Registration failed. Try a different email.",
+      );
+    }
   }
 
   return (
     <div className="admin-login-container">
       <h1>Register</h1>
-      <p className="sub-header">Join us to start making reservations and orders.</p>
+      <p className="sub-header">
+        Join us to start making reservations and orders.
+      </p>
 
       <form onSubmit={handleSubmit} className="admin-form">
         <input
@@ -36,7 +64,6 @@ function Register() {
           onChange={handleChange}
           required
         />
-
         <input
           type="email"
           name="email"
@@ -45,7 +72,6 @@ function Register() {
           onChange={handleChange}
           required
         />
-
         <input
           type="password"
           name="password"
@@ -54,13 +80,11 @@ function Register() {
           onChange={handleChange}
           required
         />
-
         <button type="submit" className="signin-button">
           Create Account
         </button>
       </form>
 
-      {/* Redirect back to Login */}
       <p className="admin-link-text">
         Already have an account? <Link to="/login">Login here</Link>
       </p>

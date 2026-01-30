@@ -1,117 +1,146 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios"; // Using axios for easier header management
 import "../styles/cart.css";
 
 function Cart() {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartData, setCartData] = useState({ items: [], totalPrice: 0 });
   const [toast, setToast] = useState({ show: false, message: "" });
   const [loading, setLoading] = useState(true);
 
-  const API_URL = "http://localhost:5000/api/cart";
+  // Updated URLs to match your Order Routes
+  const API_URL = "http://localhost:5000/orders";
 
   useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const response = await fetch(API_URL);
-        if (response.ok) {
-          const data = await response.json();
-          setCartItems(data);
-        }
-      } catch (err) {
-        console.error("Failed to fetch cart:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchCart();
   }, []);
 
-  const total = cartItems.reduce((acc, item) => {
-    const priceNum = parseFloat(String(item.price).replace('$', ''));
-    return acc + (priceNum * item.quantity);
-  }, 0);
+  const fetchCart = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get(`${API_URL}/cart`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      // Correcting the path to match your controller's res.json structure
+      if (response.data.cart) {
+        setCartData(response.data.cart);
+      }
+    } catch (err) {
+      console.error("Failed to fetch cart:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const updateQuantity = async (id, delta) => {
-    const item = cartItems.find(i => i.id === id);
-    const newQty = item.quantity + delta;
-    if (newQty < 1) return;
+  const updateQuantity = async (itemId, currentQty, delta) => {
+    const token = localStorage.getItem("token");
+    const newQty = currentQty + delta;
+    if (newQty < 0) return; // controller handles 0 as delete
 
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quantity: newQty })
-      });
-      if (response.ok) {
-        setCartItems(cartItems.map(i => i.id === id ? { ...i, quantity: newQty } : i));
+      const response = await axios.patch(
+        `${API_URL}/cart/${itemId}`,
+        { quantity: newQty },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+
+      if (response.status === 200) {
+        fetchCart(); // Refresh data to get new total price from DB
       }
     } catch (err) {
       console.error("Update failed:", err);
     }
   };
 
-  const removeFromCart = async (id) => {
-    try {
-      const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-      if (response.ok) {
-        setCartItems(cartItems.filter(item => item.id !== id));
-      }
-    } catch (err) {
-      console.error("Delete failed:", err);
-    }
-  };
-
-  // This is the ONE main function for the whole order
   const handlePlaceOrder = async () => {
-    if (cartItems.length === 0) return;
+    const token = localStorage.getItem("token");
+    if (cartData.items.length === 0) return;
 
     try {
-      const response = await fetch(`${API_URL}/checkout`, { method: 'POST' });
+      const response = await axios.post(
+        `${API_URL}/checkout`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
 
-      if (response.ok) {
-        setToast({ show: true, message: "Order Successful! Your food is being prepared." });
-        setCartItems([]); // Clear UI after ordering
+      if (response.status === 200) {
+        setToast({
+          show: true,
+          message: "Order Successful! Your food is being prepared.",
+        });
+        setCartData({ items: [], totalPrice: 0 }); // Clear UI
         setTimeout(() => setToast({ show: false, message: "" }), 4000);
       }
     } catch (err) {
-      setToast({ show: true, message: "Error placing order. Please try again." });
+      setToast({
+        show: true,
+        message: "Error placing order. Please try again.",
+      });
     }
   };
 
-  if (loading) return <div className="cart-page"><p>Checking your order...</p></div>;
+  if (loading)
+    return (
+      <div className="cart-page">
+        <p>Checking your order...</p>
+      </div>
+    );
 
   return (
     <section className="cart-page">
-      {/* Success/Error Toast */}
       {toast.show && <div className="cart-toast">{toast.message}</div>}
 
       <div className="cart-card">
         <h2 className="cart-title">Your Order Summary</h2>
-        
-        {cartItems.length === 0 ? (
+
+        {cartData.items.length === 0 ? (
           <div className="empty-cart-state">
             <p>Looks like you haven't picked anything yet.</p>
-            <Link to="/menu" className="return-link">Back to Menu</Link>
+            <Link to="/menu" className="return-link">
+              Back to Menu
+            </Link>
           </div>
         ) : (
           <>
             <div className="cart-items-list">
-              {cartItems.map(item => (
+              {cartData.items.map((item) => (
                 <div key={item.id} className="cart-item">
                   <div className="item-details">
-                    <h4 className="item-name">{item.name}</h4>
-                    <p className="item-meta">{item.price}</p>
+                    {/* Accessing nested menuitem data from the SQL Join */}
+                    <h4 className="item-name">{item.menuitems.name}</h4>
+                    <p className="item-meta">${item.menuitems.price} each</p>
                     <div className="quantity-controls">
-                      <button onClick={() => updateQuantity(item.id, -1)} className="qty-btn">-</button>
+                      <button
+                        onClick={() =>
+                          updateQuantity(item.id, item.quantity, -1)
+                        }
+                        className="qty-btn"
+                      >
+                        -
+                      </button>
                       <span className="qty-number">{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, 1)} className="qty-btn">+</button>
+                      <button
+                        onClick={() =>
+                          updateQuantity(item.id, item.quantity, 1)
+                        }
+                        className="qty-btn"
+                      >
+                        +
+                      </button>
                     </div>
                   </div>
                   <div className="item-actions">
                     <span className="item-subtotal">
-                      ${(parseFloat(String(item.price).replace('$', '')) * item.quantity).toFixed(2)}
+                      ${item.price.toFixed(2)}
                     </span>
-                    <button onClick={() => removeFromCart(item.id)} className="remove-btn">
+                    <button
+                      onClick={() =>
+                        updateQuantity(item.id, item.quantity, -item.quantity)
+                      }
+                      className="remove-btn"
+                    >
                       Remove
                     </button>
                   </div>
@@ -122,10 +151,11 @@ function Cart() {
             <div className="cart-checkout-section">
               <div className="total-row">
                 <span>Total Amount</span>
-                <span className="total-amount">${total.toFixed(2)}</span>
+                <span className="total-amount">
+                  ${cartData.totalPrice.toFixed(2)}
+                </span>
               </div>
-              
-              {/* THIS IS THE ONLY ORDER BUTTON */}
+
               <button className="place-order-btn" onClick={handlePlaceOrder}>
                 PLACE ORDER
               </button>

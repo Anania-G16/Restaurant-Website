@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import "../styles/AdminLogin.css"; 
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios"; // 1. Import Axios
+import "../styles/AdminLogin.css";
 
 function Login() {
+  const navigate = useNavigate(); // For redirecting after login
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -15,16 +17,40 @@ function Login() {
     });
   }
 
-  function handleSubmit(e) {
+  // 2. Make this function ASYNC
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log("Login Data:", formData);
-    alert("Login attempt submitted!");
+
+    try {
+      // 3. Point this to your backend URL
+      const response = await axios.post(
+        "http://localhost:5000/auth/login",
+        formData,
+      );
+
+      // 4. Save the token returned by your backend
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+
+      alert("Login successful!");
+
+      // 5. Redirect the user (e.g., to the menu or admin dashboard)
+      navigate("/");
+    } catch (err) {
+      // Handle errors (wrong password, user doesn't exist, etc.)
+      console.error("Login Error:", err.response?.data || err.message);
+      alert(
+        err.response?.data?.error || "Login failed. Check your credentials.",
+      );
+    }
   }
 
   return (
     <div className="admin-login-container">
       <h1>Login</h1>
-      <p className="sub-header">Sign in to manage your orders and reservations.</p>
+      <p className="sub-header">
+        Sign in to manage your orders and reservations.
+      </p>
 
       <form onSubmit={handleSubmit} className="admin-form">
         <input
@@ -49,14 +75,11 @@ function Login() {
           Sign In
         </button>
       </form>
-
       {/* NEW: Link to Register */}
       <p className="admin-link-text">
         New user? <Link to="/register">Register here</Link>
       </p>
-
-      {/* Existing Admin Link */}
-      <p className="admin-link-text" style={{ marginTop: "0.5rem" }}>
+      <p className="admin-link-text">
         Admin? <Link to="/AdminLogin">Login here</Link>
       </p>
     </div>
