@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/AdminLogin.css"; 
 
-function Login() {
+function Register() {
   const [formData, setFormData] = useState({
+    fullName: "",
     email: "",
     password: "",
   });
@@ -17,16 +18,25 @@ function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("Login Data:", formData);
-    alert("Login attempt submitted!");
+    console.log("Registration Data:", formData);
+    alert("Account created successfully!");
   }
 
   return (
     <div className="admin-login-container">
-      <h1>Login</h1>
-      <p className="sub-header">Sign in to manage your orders and reservations.</p>
+      <h1>Register</h1>
+      <p className="sub-header">Join us to start making reservations and orders.</p>
 
       <form onSubmit={handleSubmit} className="admin-form">
+        <input
+          type="text"
+          name="fullName"
+          placeholder="Full Name"
+          value={formData.fullName}
+          onChange={handleChange}
+          required
+        />
+
         <input
           type="email"
           name="email"
@@ -46,21 +56,16 @@ function Login() {
         />
 
         <button type="submit" className="signin-button">
-          Sign In
+          Create Account
         </button>
       </form>
 
-      {/* NEW: Link to Register */}
+      {/* Redirect back to Login */}
       <p className="admin-link-text">
-        New user? <Link to="/register">Register here</Link>
-      </p>
-
-      {/* Existing Admin Link */}
-      <p className="admin-link-text" style={{ marginTop: "0.5rem" }}>
-        Admin? <Link to="/AdminLogin">Login here</Link>
+        Already have an account? <Link to="/login">Login here</Link>
       </p>
     </div>
   );
 }
 
-export default Login;
+export default Register;

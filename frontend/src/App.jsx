@@ -12,6 +12,7 @@ import Signup from "./pages/Signup";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Cart from "./pages/Cart"; // Ensure this path is correct
+import Register from "./pages/Register";
 
 // Reservation & Admin Imports
 import Reservation from "./pages/Reservation";
@@ -38,6 +39,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/AdminLogin" element={<AdminLogin />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         
         {/* Fixed Cart Route - Path is case-sensitive depending on your NavLink */}
         <Route path="/cart" element={<Cart />} />
