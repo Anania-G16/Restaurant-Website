@@ -1,6 +1,6 @@
 import "../styles/gallery.css";
 
-// Import your assets
+// Import assets
 import img1 from "../assets/images/image_1.webp";
 import img2 from "../assets/images/image_2.webp";
 import img3 from "../assets/images/image_3.webp";
@@ -20,8 +20,8 @@ import img16 from "../assets/images/image_16.jpg";
 import img17 from "../assets/images/image_17.jpg";
 import img18 from "../assets/images/image_18.jpg";
 
-
 // Define the static array
+
 const IMAGES = [
   { id: 1, src: img1, alt: "Gallery Image 1" },
   { id: 2, src: img2, alt: "Gallery Image 2" },
@@ -44,7 +44,7 @@ const IMAGES = [
 ];
 
 function Gallery() {
-  // Logic to split images into 3 columns for the masonry look
+  // Logic to split images into 3 columns
   const col1 = IMAGES.filter((_, idx) => idx % 3 === 0);
   const col2 = IMAGES.filter((_, idx) => idx % 3 === 1);
   const col3 = IMAGES.filter((_, idx) => idx % 3 === 2);

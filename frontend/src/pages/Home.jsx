@@ -14,7 +14,7 @@ import sarah from "../assets/images/sarah.jpg";
 import daniel from "../assets/images/daniel.jpg";
 import john from "../assets/images/john.jpg";
 
-// 1. Data Arrays (Easier to manage than hardcoded HTML)
+// 1. Data Arrays for easy code writing
 const SPECIAL_DISHES = [
   {
     id: 1,
@@ -73,7 +73,7 @@ const TESTIMONIALS = [
 function Home() {
   return (
     <>
-       <main>
+      <main>
         {/* Hero Section */}
         <section className="hero-container">
           <div className="hero-text">
@@ -94,12 +94,13 @@ function Home() {
               </Link>
             </div>
           </div>
+
           <div className="hero-image-container">
             <img src={heroImage} alt="rotating food" className="hero-image" />
           </div>
         </section>
 
-        {/* Story Section */}
+        {/* Our story */}
         <section className="story-container">
           <div className="welcome">Welcome to YEA Restaurant</div>
           <div className="discover">
@@ -117,7 +118,7 @@ function Home() {
           </div>
         </section>
 
-        {/* Special Dishes Section (Mapping Example) */}
+        {/* Special Dishes*/}
         <section className="special-dishes-container">
           <div className="special-dishes-title">Our Special Dishes</div>
           <div className="special-dishes-subtitle">Our Chefs Specialties</div>
@@ -152,7 +153,7 @@ function Home() {
           </div>
         </section>
 
-        {/* Testimonials Section (Mapping Example) */}
+        {/* Testimonials Section */}
         <section className="testimonial__container">
           <h1 className="testimonal-title">What our customers say</h1>
           <div className="section__grid">
@@ -167,8 +168,6 @@ function Home() {
           </div>
         </section>
       </main>
-
-  
     </>
   );
 }
