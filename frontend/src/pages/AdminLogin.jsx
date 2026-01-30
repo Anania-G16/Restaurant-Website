@@ -50,12 +50,7 @@ function AdminLogin() {
         </button>
       </form>
 
-      <p className="admin-login-footer">
-        New Administrator?{" "}
-        <Link to="/signup">
-          Register here
-        </Link>
-      </p>
+    
     </div>
   );
 }
