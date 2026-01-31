@@ -16,9 +16,6 @@ function AdminLayout() {
           <Link to="/admin/orders" style={{ color: "#fff" }}>
             Orders
           </Link>
-          <Link to="/admin/reservations" style={{ color: "#fff" }}>
-            Reservations
-          </Link>
           <Link to="/admin/messages" style={{ color: "#fff" }}>
             Messages
           </Link>

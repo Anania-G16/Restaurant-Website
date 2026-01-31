@@ -87,14 +87,7 @@ function Contact() {
                 onChange={handleChange}
                 required
               />
-              <input
-                type="text"
-                name="subject"
-                placeholder="Subject"
-                value={formData.subject}
-                onChange={handleChange}
-                required
-              />
+             
               <textarea
                 name="message"
                 placeholder="Message"
@@ -107,20 +100,7 @@ function Contact() {
                 {loading ? "Sending..." : "Send Message"}
               </button>
 
-              <div className="reservation-link-box">
-                <span>Want to book a table? </span>
-                <Link
-                  to="/reservation"
-                  className="direct-res-link"
-                  style={{
-                    color: "#b3860f",
-                    fontWeight: "bold",
-                    textDecoration: "none",
-                  }}
-                >
-                  Reserve it Here &rarr;
-                </Link>
-              </div>
+              
             </form>
           </div>
 

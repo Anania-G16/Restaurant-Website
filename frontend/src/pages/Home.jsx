@@ -85,9 +85,6 @@ function Home() {
               to impress.
             </p>
             <div className="buttons-container">
-              <Link to="/reservation" className="book-table">
-                Book a Table
-              </Link>
               <Link to="/menu" className="explore-more book-table">
                 Explore More
               </Link>

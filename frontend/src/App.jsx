@@ -14,12 +14,10 @@ import Cart from "./pages/Cart"; // Ensure this path is correct
 import Register from "./pages/Register";
 
 // Reservation & Admin Imports
-import Reservation from "./pages/Reservation";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminMenu from "./pages/admin/AdminMenu";
 import AdminOrders from "./pages/admin/AdminOrders";
-import AdminReservations from "./pages/admin/AdminReservations";
 import AdminMessages from "./pages/admin/AdminMessages";
 
 import "./App.css";
@@ -43,15 +41,12 @@ function App() {
         {/* Fixed Cart Route - Path is case-sensitive depending on your NavLink */}
         <Route path="/cart" element={<Cart />} />
 
-        {/* Reservation Route */}
-        <Route path="/reservation" element={<Reservation />} />
 
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="menu" element={<AdminMenu />} />
           <Route path="orders" element={<AdminOrders />} />
-          <Route path="reservations" element={<AdminReservations />} />
           <Route path="messages" element={<AdminMessages />} />
         </Route>
 
