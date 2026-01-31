@@ -6,7 +6,11 @@ function AdminMenu() {
   const [menuItems, setMenuItems] = useState([]);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const [imageDataUrl, setImageDataUrl] = useState("");
+  const [imagePreview, setImagePreview] = useState("");
   const [loading, setLoading] = useState(true);
+  const MAX_IMAGE_SIZE_MB = 2; // max image size allowed for upload
 
   // 1. Fetch menu from DB on load
   useEffect(() => {
@@ -26,14 +30,55 @@ function AdminMenu() {
   };
 
   // 2. Add Item to DB
+  function handleFileChange(e) {
+    const file = e.target.files?.[0];
+    if (!file) {
+      setImageFile(null);
+      setImageDataUrl("");
+      setImagePreview("");
+      return;
+    }
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image file.");
+      return;
+    }
+    if (file.size > MAX_IMAGE_SIZE_MB * 1024 * 1024) {
+      alert(`Image is too large. Max size is ${MAX_IMAGE_SIZE_MB}MB`);
+      return;
+    }
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+
+    const reader = new FileReader();
+    reader.onload = () => setImageDataUrl(reader.result);
+    reader.readAsDataURL(file);
+  }
+
+  function removeImage() {
+    setImageFile(null);
+    setImageDataUrl("");
+    setImagePreview("");
+  }
+
   async function addItem(e) {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
+    if (imageFile && imageFile.size > MAX_IMAGE_SIZE_MB * 1024 * 1024) {
+      alert(`Image is too large. Max size is ${MAX_IMAGE_SIZE_MB}MB`);
+      return;
+    }
+
     try {
+      const payload = {
+        name,
+        price: parseFloat(price),
+        image_url: imageDataUrl || null,
+      };
+
       const response = await axios.post(
         "http://localhost:5000/menu",
-        { name, price: parseFloat(price) },
+        payload,
         { headers: { Authorization: `Bearer ${token}` } },
       );
 
@@ -41,6 +86,9 @@ function AdminMenu() {
       setMenuItems([...menuItems, response.data.menuItem]);
       setName("");
       setPrice("");
+      setImageFile(null);
+      setImageDataUrl("");
+      setImagePreview("");
       alert("Item added successfully!");
     } catch (err) {
       console.error("Error adding item:", err.response?.data || err.message);
@@ -93,7 +141,23 @@ function AdminMenu() {
             required
             className="admin-menu-input"
           />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="admin-menu-file"
+          />
         </div>
+
+        {imagePreview && (
+          <div className="admin-menu-image-preview">
+            <img src={imagePreview} alt="Preview" />
+            <button type="button" onClick={removeImage} className="admin-menu-remove">
+              Remove
+            </button>
+          </div>
+        )}
+
         <button type="submit" className="admin-menu-add">
           Add Item to Database
         </button>
@@ -106,6 +170,11 @@ function AdminMenu() {
         ) : (
           menuItems.map((item) => (
             <li key={item.id} className="admin-menu-item">
+              <img
+                src={item.image_url || "https://via.placeholder.com/60"}
+                alt={item.name}
+                className="admin-menu-thumb"
+              />
               <span>
                 <strong>{item.name}</strong> - ${item.price}
               </span>

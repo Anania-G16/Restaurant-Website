@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/AdminLogin.css";
 
@@ -20,10 +20,9 @@ function AdminLogin() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setError(""); // Clear previous errors
+    setError("");
 
     try {
-      // Send request to the backend
       const response = await axios.post(
         "http://localhost:5000/auth/login",
         formData,
@@ -31,22 +30,17 @@ function AdminLogin() {
 
       const { token, role } = response.data;
 
-      // Check if the user is actually an admin
       if (role === "admin") {
-        // Store auth data
         localStorage.setItem("token", token);
         localStorage.setItem("role", role);
 
         alert("Admin Login Successful!");
 
-        // Redirect to Admin Dashboard
         navigate("/admin");
       } else {
-        // If a regular customer tries to use the admin portal
         setError("Access Denied: You do not have admin privileges.");
       }
     } catch (err) {
-      // Handle wrong credentials or server errors
       const message =
         err.response?.data?.error || "Login failed. Please try again.";
       setError(message);

@@ -24,3 +24,38 @@
 .admin-menu-delete{
     background-color: rgb(255, 72, 0);
 }
+
+.admin-menu-item{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+}
+
+.admin-menu-thumb{
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    margin-right:1rem;
+    border-radius:6px;
+}
+
+.admin-menu-image-preview{
+    margin:0.5rem 0;
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+}
+
+.admin-menu-image-preview img{
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    border-radius:6px;
+}
+
+.admin-menu-remove{
+    background-color: #ccc;
+    border: none;
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+}
