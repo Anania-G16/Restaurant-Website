@@ -1,31 +1,52 @@
 import { useState } from "react";
+import axios from "axios";
 
-function ReservationForm() {
+function ReservationForm({ onRefresh }) {
   const [formData, setFormData] = useState({
     date: "",
     time: "",
     guests: "",
   });
+  const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
 
-    console.log("Reservation Data:", formData);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login first.");
+      setLoading(false);
+      return;
+    }
 
-    alert("Reservation submitted! (Frontend only)");
+    try {
+      // Ensure date and time are joined correctly for a Timestamp
+      const combinedDateTime = `${formData.date}T${formData.time}:00`;
 
-    setFormData({
-      date: "",
-      time: "",
-      guests: "",
-    });
+      await axios.post(
+        "http://localhost:5000/reservations",
+        {
+          guest_count: Number(formData.guests),
+          reservation_time: combinedDateTime,
+        },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+
+      alert("Table Reserved!");
+      setFormData({ date: "", time: "", guests: "" });
+
+      if (onRefresh) onRefresh(); // Reload the list if the function exists
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.error || "Reservation failed");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -33,7 +54,7 @@ function ReservationForm() {
       onSubmit={handleSubmit}
       style={{
         maxWidth: "400px",
-        margin: "40px auto",
+        margin: "20px auto",
         display: "flex",
         flexDirection: "column",
         gap: "15px",
@@ -46,7 +67,6 @@ function ReservationForm() {
         onChange={handleChange}
         required
       />
-
       <input
         type="time"
         name="time"
@@ -54,17 +74,21 @@ function ReservationForm() {
         onChange={handleChange}
         required
       />
-
       <input
         type="number"
         name="guests"
-        placeholder="Number of guests"
+        placeholder="How many guests?"
         value={formData.guests}
         onChange={handleChange}
         required
       />
-
-      <button type="submit">Reserve</button>
+      <button
+        type="submit"
+        disabled={loading}
+        style={{ padding: "10px", cursor: "pointer" }}
+      >
+        {loading ? "Saving..." : "Reserve Now"}
+      </button>
     </form>
   );
 }

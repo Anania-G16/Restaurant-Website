@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios"; // Using axios for easier header management
+import axios from "axios";
 import "../styles/cart.css";
 
 function Cart() {
@@ -8,8 +8,7 @@ function Cart() {
   const [toast, setToast] = useState({ show: false, message: "" });
   const [loading, setLoading] = useState(true);
 
-  // Updated URLs to match your Order Routes
-  const API_URL = "http://localhost:5000/orders";
+  const API_URL = "http://localhost:5000/orders"; // Verify this matches your server.js
 
   useEffect(() => {
     fetchCart();
@@ -21,7 +20,6 @@ function Cart() {
       const response = await axios.get(`${API_URL}/cart`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      // Correcting the path to match your controller's res.json structure
       if (response.data.cart) {
         setCartData(response.data.cart);
       }
@@ -35,18 +33,15 @@ function Cart() {
   const updateQuantity = async (itemId, currentQty, delta) => {
     const token = localStorage.getItem("token");
     const newQty = currentQty + delta;
-    if (newQty < 0) return; // controller handles 0 as delete
+    if (newQty < 0) return;
 
     try {
-      const response = await axios.patch(
+      await axios.patch(
         `${API_URL}/cart/${itemId}`,
         { quantity: newQty },
         { headers: { Authorization: `Bearer ${token}` } },
       );
-
-      if (response.status === 200) {
-        fetchCart(); // Refresh data to get new total price from DB
-      }
+      fetchCart(); // Refresh data from DB to update totals
     } catch (err) {
       console.error("Update failed:", err);
     }
@@ -54,8 +49,6 @@ function Cart() {
 
   const handlePlaceOrder = async () => {
     const token = localStorage.getItem("token");
-    if (cartData.items.length === 0) return;
-
     try {
       const response = await axios.post(
         `${API_URL}/checkout`,
@@ -68,16 +61,13 @@ function Cart() {
       if (response.status === 200) {
         setToast({
           show: true,
-          message: "Order Successful! Your food is being prepared.",
+          message: "Order Successful! Prepare for deliciousness.",
         });
-        setCartData({ items: [], totalPrice: 0 }); // Clear UI
+        setCartData({ items: [], totalPrice: 0 });
         setTimeout(() => setToast({ show: false, message: "" }), 4000);
       }
     } catch (err) {
-      setToast({
-        show: true,
-        message: "Error placing order. Please try again.",
-      });
+      setToast({ show: true, message: "Error placing order." });
     }
   };
 
@@ -108,7 +98,7 @@ function Cart() {
               {cartData.items.map((item) => (
                 <div key={item.id} className="cart-item">
                   <div className="item-details">
-                    {/* Accessing nested menuitem data from the SQL Join */}
+                    {/* Accessing the joined data from the menuitems table */}
                     <h4 className="item-name">{item.menuitems.name}</h4>
                     <p className="item-meta">${item.menuitems.price} each</p>
                     <div className="quantity-controls">
@@ -152,10 +142,9 @@ function Cart() {
               <div className="total-row">
                 <span>Total Amount</span>
                 <span className="total-amount">
-                  ${cartData.totalPrice.toFixed(2)}
+                  ${Number(cartData.totalPrice).toFixed(2)}
                 </span>
               </div>
-
               <button className="place-order-btn" onClick={handlePlaceOrder}>
                 PLACE ORDER
               </button>

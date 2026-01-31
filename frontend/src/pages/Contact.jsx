@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom"; // Add this import
+import { Link } from "react-router-dom";
+import axios from "axios"; // Import Axios
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "../styles/contact.css";
-
-// Asset Imports
 import chefImage from "../assets/images/contact chef.png";
 
 function Contact() {
@@ -14,6 +13,7 @@ function Contact() {
     subject: "",
     message: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,23 +23,52 @@ function Contact() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
-    alert(
-      "Thank you for contacting YEA Restaurant! We will get back to you soon.",
-    );
+    setLoading(true);
+
+    const token = localStorage.getItem("token"); // Get token if user is logged in
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/contact", // Verify this matches your server.js mount point
+        {
+          name: formData.name,
+          email: formData.email,
+          message: formData.message, // Your controller expects: name, email, message
+        },
+        {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : "", // Optional auth
+          },
+        },
+      );
+
+      if (response.status === 201) {
+        alert(
+          "Thank you for contacting YEA Restaurant! Your message was saved.",
+        );
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      }
+    } catch (err) {
+      console.error("Submission Error:", err);
+      alert(
+        err.response?.data?.error ||
+          "Failed to send message. Please try again.",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
+      <Navbar />
       <main className="contact-main">
         <section className="container">
           <div className="form-box">
             <h1>Contact Us</h1>
             <p>We would love to hear from you</p>
-
-            {/* ------------------------------------ */}
 
             <form onSubmit={handleSubmit}>
               <input
@@ -74,8 +103,10 @@ function Contact() {
                 required
               ></textarea>
 
-              <button type="submit">Send Message</button>
-              {/* --- Added Reservation Link Here --- */}
+              <button type="submit" disabled={loading}>
+                {loading ? "Sending..." : "Send Message"}
+              </button>
+
               <div className="reservation-link-box">
                 <span>Want to book a table? </span>
                 <Link
@@ -98,6 +129,7 @@ function Contact() {
           </div>
         </section>
       </main>
+      <Footer />
     </>
   );
 }

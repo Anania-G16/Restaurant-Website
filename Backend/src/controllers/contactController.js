@@ -37,20 +37,44 @@ export const submitMessage = async (req, res) => {
 /* -------------------- ADMIN CONTACT MESSAGES -------------------- */
 
 // Get all contact messages
+// Backend/src/controllers/contactController.js
+
 export const getAllMessages = async (req, res) => {
   try {
+    // 1. Double check your table name in Supabase. Is it 'contactmessages'?
     const { data, error } = await supabase
       .from("contactmessages")
-      .select(
-        "id, user_id, name, email, message, created_at, Users(name, email)",
-      )
+      .select("*") // Use "*" first to see if it works at all
       .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Supabase Error details:", error);
+      return res.status(400).json({ error: error.message });
+    }
+
+    return res.json({ messages: data });
+  } catch (err) {
+    // This catches logic crashes
+    console.error("Server Crash Error:", err.message);
+    return res
+      .status(500)
+      .json({ error: "Internal Server Error", details: err.message });
+  }
+};
+
+export const deleteMessage = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const { error } = await supabase
+      .from("contactmessages")
+      .delete()
+      .eq("id", id);
 
     if (error) throw error;
 
-    res.json({ messages: data });
+    res.json({ message: "Message deleted successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to fetch messages" });
+    res.status(500).json({ error: "Failed to delete message" });
   }
 };

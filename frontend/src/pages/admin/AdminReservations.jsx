@@ -1,18 +1,51 @@
-import "../../styles/AdminReservation.css"
+import { useState, useEffect } from "react";
+import axios from "axios";
+import "../../styles/AdminReservation.css";
+
 function AdminReservations() {
-  const reservations = [
-    { id: 1, name: "Michael", date: "2025-01-20", time: "18:00", guests: 4 },
-    { id: 2, name: "Anna", date: "2025-01-21", time: "20:00", guests: 2 },
-  ];
+  const [reservations, setReservations] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // This should match the prefix you used in server.js for these routes
+  // For example: app.use("/admin/reservations", adminResRoutes)
+  const ADMIN_RES_URL = "http://localhost:5000/admin/reservations";
+
+  useEffect(() => {
+    const fetchAllReservations = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.get(ADMIN_RES_URL, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        // Assuming your controller returns { reservations: [...] }
+        console.log("RAW DATA FROM SERVER:", response.data.reservations[0]);
+        setReservations(response.data.reservations || []);
+      } catch (err) {
+        console.error("Error fetching admin reservations:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllReservations();
+  }, []);
+
+  if (loading)
+    return (
+      <div className="admin-res-container">
+        <p>Fetching Guest List...</p>
+      </div>
+    );
 
   return (
-    <div>
-      <h1 className="admin-res-h1">Reservations</h1>
+    <div className="admin-res-container">
+      <h1 className="admin-res-h1">All User Reservations</h1>
 
-      <table border="1" cellPadding="10">
+      <table className="admin-res-table" border="1" cellPadding="10">
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Customer Name</th>
+            <th>Email</th>
             <th>Date</th>
             <th>Time</th>
             <th>Guests</th>
@@ -20,14 +53,29 @@ function AdminReservations() {
         </thead>
 
         <tbody>
-          {reservations.map(r => (
-            <tr key={r.id}>
-              <td>{r.name}</td>
-              <td>{r.date}</td>
-              <td>{r.time}</td>
-              <td>{r.guests}</td>
+          {reservations.length > 0 ? (
+            reservations.map((r) => (
+              <tr key={r.id}>
+                {/* Accessing the nested Users data from your controller join */}
+                <td>{r.Users?.name || "Anonymous"}</td>
+                <td>{r.Users?.email || "N/A"}</td>
+                <td>{new Date(r.reservation_time).toLocaleDateString()}</td>
+                <td>
+                  {new Date(r.reservation_time).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </td>
+                <td>{r.guest_count}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>
+                No reservations found in the system.
+              </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

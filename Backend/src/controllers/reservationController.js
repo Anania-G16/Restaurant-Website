@@ -13,40 +13,34 @@ export const createReservation = async (req, res) => {
       .json({ error: "Guest count and reservation time are required" });
 
   try {
-    // Check for conflicting reservations
-    const { data: conflicts, error: conflictError } = await supabase
-      .from("reservations")
-      .select("*")
-      .eq("table_number", table_number || null)
-      .eq("reservation_time", reservation_time)
-      .neq("status", "cancelled");
+    // 1. Build the object dynamically
+    const insertData = {
+      user_id: userId,
+      guest_count: parseInt(guest_count), // Force integer
+      reservation_time: reservation_time,
+    };
 
-    if (conflictError) throw conflictError;
-    if (conflicts.length > 0)
-      return res
-        .status(400)
-        .json({ error: "Table already reserved at this time" });
+    // Only add table_number if it's a valid number, otherwise let DB handle NULL
+    if (table_number && !isNaN(table_number)) {
+      insertData.table_number = parseInt(table_number);
+    }
 
-    // Insert reservation
+    // 2. Insert into Supabase
     const { data, error } = await supabase
       .from("reservations")
-      .insert([
-        {
-          user_id: userId,
-          table_number: table_number || null,
-          guest_count,
-          reservation_time,
-        },
-      ])
+      .insert([insertData])
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      console.error("Supabase Error:", error);
+      return res.status(400).json({ error: error.message });
+    }
 
     res.status(201).json({ message: "Reservation created", reservation: data });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to create reservation" });
+    console.error("Server Crash:", err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -77,7 +71,7 @@ export const getAllReservations = async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("reservations")
-      .select("*, Users(name, email)")
+      .select("*, users(name, email)")
       .order("reservation_time", { ascending: true });
 
     if (error) throw error;

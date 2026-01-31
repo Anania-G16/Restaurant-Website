@@ -3,11 +3,11 @@ import { supabase } from "../config/db.js";
 /* -------------------- USER CART & orders -------------------- */
 
 // Get current cart (pending order)
+// Replace the getCart function in orderController.js
 export const getCart = async (req, res) => {
   const userId = req.user.userId;
 
   try {
-    // Find pending order for user
     const { data: orderData, error: orderError } = await supabase
       .from("orders")
       .select("id, total_price")
@@ -15,18 +15,31 @@ export const getCart = async (req, res) => {
       .eq("status", "pending")
       .single();
 
-    if (orderError || !orderData) return res.json({ cart: [] }); // empty cart
+    if (orderError || !orderData)
+      return res.json({ cart: { items: [], totalPrice: 0 } });
 
-    // Fetch order items
+    // Fetch items AND join with menuitems table to get name, img, etc.
     const { data: items, error: itemsError } = await supabase
       .from("orderitems")
-      .select("id, menu_item_id, quantity, price")
+      .select(
+        `
+        id, 
+        menu_item_id, 
+        quantity, 
+        price,
+        menuitems (name, image_url, price)
+      `,
+      )
       .eq("order_id", orderData.id);
 
     if (itemsError) throw itemsError;
 
     res.json({
-      cart: { orderId: orderData.id, totalPrice: orderData.total_price, items },
+      cart: {
+        orderId: orderData.id,
+        totalPrice: orderData.total_price,
+        items,
+      },
     });
   } catch (err) {
     console.error(err);
