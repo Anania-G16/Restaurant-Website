@@ -9,6 +9,7 @@ function AdminMenu() {
   const [imageFile, setImageFile] = useState(null);
   const [imageDataUrl, setImageDataUrl] = useState("");
   const [imagePreview, setImagePreview] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const MAX_IMAGE_SIZE_MB = 2; // max image size allowed for upload
 
@@ -47,22 +48,45 @@ function AdminMenu() {
       return;
     }
     setImageFile(file);
-    setImagePreview(URL.createObjectURL(file));
 
+    // Create a preview URL immediately
+    const previewUrl = URL.createObjectURL(file);
+    setImagePreview(previewUrl);
+
+    // Read the file as Data URL (async). Track loading state so submit can be disabled until done.
+    setImageLoading(true);
     const reader = new FileReader();
-    reader.onload = () => setImageDataUrl(reader.result);
+    reader.onload = () => {
+      setImageDataUrl(reader.result);
+      setImageLoading(false);
+    };
+    reader.onerror = () => {
+      alert("Failed to read image file");
+      setImageLoading(false);
+      setImageFile(null);
+      setImagePreview("");
+    };
     reader.readAsDataURL(file);
   }
 
   function removeImage() {
+    if (imagePreview) URL.revokeObjectURL(imagePreview);
     setImageFile(null);
     setImageDataUrl("");
     setImagePreview("");
+    setImageLoading(false);
   }
 
   async function addItem(e) {
     e.preventDefault();
     const token = localStorage.getItem("token");
+
+    if (imageLoading) {
+      alert(
+        "Image is still being processed. Please wait a moment and try again.",
+      );
+      return;
+    }
 
     if (imageFile && imageFile.size > MAX_IMAGE_SIZE_MB * 1024 * 1024) {
       alert(`Image is too large. Max size is ${MAX_IMAGE_SIZE_MB}MB`);
@@ -76,11 +100,9 @@ function AdminMenu() {
         image_url: imageDataUrl || null,
       };
 
-      const response = await axios.post(
-        "http://localhost:5000/menu",
-        payload,
-        { headers: { Authorization: `Bearer ${token}` } },
-      );
+      const response = await axios.post("http://localhost:5000/menu", payload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       // Add the new item returned from DB to the list
       setMenuItems([...menuItems, response.data.menuItem]);
@@ -152,14 +174,27 @@ function AdminMenu() {
         {imagePreview && (
           <div className="admin-menu-image-preview">
             <img src={imagePreview} alt="Preview" />
-            <button type="button" onClick={removeImage} className="admin-menu-remove">
+            <button
+              type="button"
+              onClick={removeImage}
+              className="admin-menu-remove"
+            >
               Remove
             </button>
+            {imageLoading && (
+              <span className="admin-menu-image-loading">
+                Processing image...
+              </span>
+            )}
           </div>
         )}
 
-        <button type="submit" className="admin-menu-add">
-          Add Item to Database
+        <button
+          type="submit"
+          className="admin-menu-add"
+          disabled={imageLoading}
+        >
+          {imageLoading ? "Processing image..." : "Add Item to Database"}
         </button>
       </form>
 

@@ -1,61 +1,63 @@
-.admin-menu-h1{
-    color:rgb(213, 154, 15)
+.admin-menu-h1 {
+  color: rgb(213, 154, 15);
 }
 
-
-
-.admin-menu-form{
-    margin-bottom:20px;
+.admin-menu-form {
+  margin-bottom: 20px;
 }
 
-.admin-menu-inputs{
-    display: flex;
-    gap:2rem
+.admin-menu-inputs {
+  display: flex;
+  gap: 2rem;
 }
-.admin-menu-input{
-    height: 40px;
-
+.admin-menu-input {
+  height: 40px;
 }
-.admin-menu-add{
-    background-color: rgb(53, 105, 8);
-    margin-top: 1rem;
-}
-
-.admin-menu-delete{
-    background-color: rgb(255, 72, 0);
+.admin-menu-add {
+  background-color: rgb(53, 105, 8);
+  margin-top: 1rem;
 }
 
-.admin-menu-item{
-    display:flex;
-    align-items:center;
-    gap:1rem;
+.admin-menu-delete {
+  background-color: rgb(255, 72, 0);
 }
 
-.admin-menu-thumb{
-    width:60px;
-    height:60px;
-    object-fit:cover;
-    margin-right:1rem;
-    border-radius:6px;
+.admin-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.admin-menu-image-preview{
-    margin:0.5rem 0;
-    display:flex;
-    align-items:center;
-    gap:0.5rem;
+.admin-menu-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 1rem;
+  border-radius: 6px;
 }
 
-.admin-menu-image-preview img{
-    width:120px;
-    height:120px;
-    object-fit:cover;
-    border-radius:6px;
+.admin-menu-image-preview {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.admin-menu-remove{
-    background-color: #ccc;
-    border: none;
-    padding: 0.4rem 0.6rem;
-    cursor: pointer;
+.admin-menu-image-preview img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.admin-menu-image-loading {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.admin-menu-remove {
+  background-color: #ccc;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
 }

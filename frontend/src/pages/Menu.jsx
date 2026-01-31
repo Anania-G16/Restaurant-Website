@@ -6,30 +6,56 @@ function Menu() {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState({ show: false, message: "" });
+  const [error, setError] = useState("");
 
   const MENU_API_URL = "http://localhost:5000/menu";
-  // Verify this matches your server.js route prefix (e.g., /api/orders or /orders)
-  const ORDER_API_URL = "http://localhost:5000/orders/add";
+  // backend route for adding to cart is /orders/cart
+  const ORDER_API_URL = "http://localhost:5000/orders/cart";
+
+  // fetch function (exposed so we can retry on failures)
+  const fetchMenu = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      let response;
+      try {
+        response = await axios.get(MENU_API_URL);
+      } catch (err) {
+        // fallback: try with trailing slash if server routes were registered with a trailing slash
+        if (err.response && err.response.status === 404) {
+          response = await axios.get(MENU_API_URL + "/");
+        } else {
+          throw err;
+        }
+      }
+
+      console.log("GET /menu response:", response.status, response.data);
+
+      if (!response.data || !Array.isArray(response.data.menu)) {
+        console.error("Unexpected /menu response shape:", response.data);
+        setError("Unexpected response from server. Check backend logs.");
+        setMenuItems([]);
+        return;
+      }
+
+      setMenuItems(response.data.menu);
+    } catch (err) {
+      console.error("Failed to fetch menu:", err);
+      setError(
+        err.response?.data?.error || err.message || "Failed to fetch menu",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchMenu = async () => {
-      try {
-        const response = await axios.get(MENU_API_URL);
-        setMenuItems(response.data.menu || []);
-      } catch (error) {
-        console.error("Database connection error:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchMenu();
   }, []);
 
   const addToCart = async (item) => {
-    // 1. Get the token saved during login
     const token = localStorage.getItem("token");
 
-    // 2. Security Check: Redirect or alert if not logged in
     if (!token) {
       setToast({ show: true, message: "Please log in to order food!" });
       setTimeout(() => setToast({ show: false, message: "" }), 3000);
@@ -37,16 +63,15 @@ function Menu() {
     }
 
     try {
-      // 3. Send data to your orderController.addToCart
       const response = await axios.post(
         ORDER_API_URL,
         {
-          menu_item_id: item.id, // Matches your controller's req.body
+          menu_item_id: item.id,
           quantity: 1,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Required by your authMiddleware
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -59,7 +84,6 @@ function Menu() {
       const errorMsg = err.response?.data?.error || "Failed to add item.";
       setToast({ show: true, message: errorMsg });
     } finally {
-      // Hide toast after 3 seconds
       setTimeout(() => setToast({ show: false, message: "" }), 3000);
     }
   };
@@ -71,6 +95,21 @@ function Menu() {
         style={{ color: "white", textAlign: "center" }}
       >
         Loading Menu...
+      </div>
+    );
+
+  // Show error screen if fetch failed
+  if (!loading && error)
+    return (
+      <div
+        className="menu-main"
+        style={{ color: "white", textAlign: "center" }}
+      >
+        <h2>Failed to load menu</h2>
+        <p>{error}</p>
+        <button onClick={fetchMenu} className="retry-btn">
+          Retry
+        </button>
       </div>
     );
 
